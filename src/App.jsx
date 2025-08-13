@@ -1,14 +1,17 @@
-// src/App.jsx
+// src/App.jsx - ACTUALIZADO con React Router
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import StatusBar from './components/StatusBar';
 import QRComponent from './components/QRComponent';
 import Footer from './components/Footer';
-import AdminPanel from './components/AdminPanel'; // Panel de administración opcional
+import AdminPanel from './components/AdminPanel';
+import QRRedirect from './pages/QRRedirect.jsx'; // 🎯 NUEVA PÁGINA
 import { FORM_CONFIGS } from './config/formsConfig';
 import { useScheduleCheck } from './hooks/useScheduleCheck';
 
-const App = () => {
+// 🏠 COMPONENTE PRINCIPAL (Home)
+const HomePage = () => {
   const { isActive } = useScheduleCheck();
 
   // Función para manejar actualizaciones de configuración desde el panel admin
@@ -50,7 +53,7 @@ const App = () => {
                   <span className="font-semibold"> 8:00 AM - 3:00 PM (Hora de Bogotá)</span>
                 </p>
                 <p className="text-amber-600 text-xs mt-2">
-                  💡 Los QR codes son interactivos para mostrar información de horarios
+                  💡 Los QR codes redirigen automáticamente según el horario establecido
                 </p>
               </div>
             </div>
@@ -93,6 +96,10 @@ const App = () => {
                     {isActive ? 'DISPONIBLES' : 'RESTRINGIDAS'}
                   </span>
                 </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">QR Inteligente:</span>
+                  <span className="font-bold text-purple-600">HABILITADO</span>
+                </div>
               </div>
             </div>
 
@@ -117,7 +124,7 @@ const App = () => {
               </div>
             </div>
 
-            {/* Instrucciones de uso */}
+            {/* Instrucciones de uso actualizadas */}
             <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-200">
               <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
                 📱 Instrucciones
@@ -129,15 +136,19 @@ const App = () => {
                 </p>
                 <p className="flex items-start gap-2">
                   <span className="text-blue-500 font-bold">2.</span>
-                  <span>Se abrirá automáticamente el formulario</span>
+                  <span>El sistema verificará automáticamente el horario</span>
                 </p>
                 <p className="flex items-start gap-2">
-                  <span className="text-blue-500 font-bold">3.</span>
-                  <span>Descarga códigos QR en alta resolución</span>
+                  <span className="text-green-500 font-bold">3.</span>
+                  <span>Si está activo: se redirige al formulario</span>
                 </p>
                 <p className="flex items-start gap-2">
-                  <span className="text-orange-500 font-bold">⚠️</span>
-                  <span>Solo disponible durante horario de atención</span>
+                  <span className="text-orange-500 font-bold">4.</span>
+                  <span>Si está inactivo: muestra horarios disponibles</span>
+                </p>
+                <p className="flex items-start gap-2">
+                  <span className="text-purple-500 font-bold">💡</span>
+                  <span className="text-xs">Los QR impresos funcionan dinámicamente</span>
                 </p>
               </div>
             </div>
@@ -169,6 +180,38 @@ const App = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+// 🎯 COMPONENTE APP PRINCIPAL CON ROUTER
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        {/* 🏠 Página principal */}
+        <Route path="/" element={<HomePage />} />
+        
+        {/* 🎯 Página de redirección inteligente para QR codes */}
+        <Route path="/qr/:formId" element={<QRRedirect />} />
+        
+        {/* 🚫 Ruta de fallback para URLs no encontradas */}
+        <Route path="*" element={
+          <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50 to-pink-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-3xl p-8 shadow-2xl border border-red-200 max-w-md w-full text-center">
+              <div className="text-6xl mb-4">🔍</div>
+              <h1 className="text-2xl font-bold text-red-800 mb-4">Página No Encontrada</h1>
+              <p className="text-red-600 mb-6">La URL que buscas no existe</p>
+              <button 
+                onClick={() => window.location.href = '/'}
+                className="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+              >
+                Volver al Inicio
+              </button>
+            </div>
+          </div>
+        } />
+      </Routes>
+    </Router>
   );
 };
 

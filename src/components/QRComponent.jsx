@@ -1,4 +1,4 @@
-// src/components/QRComponent.jsx
+// src/components/QRComponent.jsx - ACTUALIZADO para usar redirección inteligente
 import React, { useRef, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { Download, ExternalLink, Clock, CheckCircle, Hash, Lock, AlertTriangle } from 'lucide-react';
@@ -11,6 +11,9 @@ const QRComponent = ({ formConfig }) => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [showAccessAlert, setShowAccessAlert] = useState(false);
 
+  // 🎯 URL INTELIGENTE: Ahora TODOS los QR apuntan a la página de redirección
+  const redirectUrl = `https://gestor-qr.netlify.app/qr/${formConfig.id}`;
+
   // Función para mostrar alerta de horario cuando no está activo
   const showScheduleAlert = () => {
     setShowAccessAlert(true);
@@ -19,11 +22,8 @@ const QRComponent = ({ formConfig }) => {
 
   // Función para manejar clic en QR
   const handleQRClick = () => {
-    if (isActive) {
-      window.open(formConfig.url, '_blank');
-    } else {
-      showScheduleAlert();
-    }
+    // Siempre abrir la página de redirección (que internamente manejará el horario)
+    window.open(redirectUrl, '_blank');
   };
 
   // Función para descargar QR (solo si está activo)
@@ -201,50 +201,35 @@ const QRComponent = ({ formConfig }) => {
           className={`relative p-4 rounded-2xl transition-all duration-500 cursor-pointer transform group-hover:scale-105 ${
             isActive 
               ? 'bg-white shadow-2xl hover:shadow-3xl ring-4 ring-green-100 hover:ring-green-200 shadow-green-200/20' 
-              : 'bg-gray-50 ring-4 ring-red-100 shadow-gray-200/20'
+              : 'bg-white shadow-2xl ring-4 ring-red-100 shadow-red-200/20'
           }`}
           onClick={handleQRClick}
-          title={isActive ? 'Clic para abrir formulario' : 'Fuera de horario - Clic para ver información'}
+          title="Clic para acceder al formulario"
         >
-          {/* Overlay de bloqueo cuando no está activo */}
-          {!isActive && (
-            <div className="absolute inset-0 bg-red-500/20 backdrop-blur-[1px] rounded-2xl flex items-center justify-center">
-              <div className="bg-red-600 text-white p-2 rounded-full animate-pulse">
-                <Lock size={20} />
-              </div>
-            </div>
-          )}
-          
           {/* Decorative corners */}
           <div className={`absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 rounded-tl ${isActive ? 'border-blue-500' : 'border-red-500'}`}></div>
           <div className={`absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 rounded-tr ${isActive ? 'border-blue-500' : 'border-red-500'}`}></div>
           <div className={`absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 rounded-bl ${isActive ? 'border-blue-500' : 'border-red-500'}`}></div>
           <div className={`absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 rounded-br ${isActive ? 'border-blue-500' : 'border-red-500'}`}></div>
           
+          {/* 🎯 QR CODE INTELIGENTE - Siempre apunta a la página de redirección */}
           <QRCode 
             ref={qrRef}
-            value={formConfig.url} 
+            value={redirectUrl} // 🔥 CAMBIO CRÍTICO: Ahora usa redirectUrl
             size={140}
             style={{ 
               height: "140px", 
               maxWidth: "140px", 
               width: "140px",
-              filter: isActive ? 'none' : 'grayscale(100%) opacity(0.6)',
               borderRadius: '12px'
             }}
           />
           
-          {/* Icono de enlace externo o bloqueo */}
+          {/* Icono de redirección */}
           <div className="absolute -bottom-2 -right-2 w-6 h-6 text-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
-            {isActive ? (
-              <div className="bg-blue-500 w-6 h-6 rounded-full flex items-center justify-center">
-                <ExternalLink size={12} />
-              </div>
-            ) : (
-              <div className="bg-red-500 w-6 h-6 rounded-full flex items-center justify-center animate-pulse">
-                <Lock size={12} />
-              </div>
-            )}
+            <div className={`${isActive ? 'bg-blue-500' : 'bg-gray-500'} w-6 h-6 rounded-full flex items-center justify-center`}>
+              <ExternalLink size={12} />
+            </div>
           </div>
         </div>
       </div>
@@ -280,6 +265,14 @@ const QRComponent = ({ formConfig }) => {
             </>
           )}
         </p>
+      </div>
+
+      {/* Badge de redirección inteligente */}
+      <div className="text-center mt-2 relative z-10">
+        <div className="inline-flex items-center gap-1 px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-full border border-blue-200">
+          <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
+          <span>QR Inteligente</span>
+        </div>
       </div>
 
       {/* Efectos de iluminación */}
