@@ -1,7 +1,7 @@
 // src/components/QRComponent.jsx
 import React, { useRef, useState } from 'react';
 import QRCode from 'react-qr-code';
-import { Download, ExternalLink, Clock, CheckCircle, Hash } from 'lucide-react';
+import { Download, ExternalLink, Clock, CheckCircle, Hash, Lock, AlertTriangle } from 'lucide-react';
 import { useScheduleCheck } from '../hooks/useScheduleCheck';
 
 const QRComponent = ({ formConfig }) => {
@@ -9,16 +9,31 @@ const QRComponent = ({ formConfig }) => {
   const qrRef = useRef();
   const [isDownloading, setIsDownloading] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [showAccessAlert, setShowAccessAlert] = useState(false);
 
+  // Función para mostrar alerta de horario cuando no está activo
+  const showScheduleAlert = () => {
+    setShowAccessAlert(true);
+    setTimeout(() => setShowAccessAlert(false), 4000);
+  };
+
+  // Función para manejar clic en QR
   const handleQRClick = () => {
     if (isActive) {
       window.open(formConfig.url, '_blank');
     } else {
-      alert('⏰ Fuera de horario\nLos formularios están disponibles de 8:00 AM a 3:00 PM\n(Hora de Bogotá, Colombia)');
+      showScheduleAlert();
     }
   };
 
+  // Función para descargar QR (solo si está activo)
   const downloadQR = async () => {
+    // 🚫 Bloquear descarga si no está activo
+    if (!isActive) {
+      showScheduleAlert();
+      return;
+    }
+
     setIsDownloading(true);
     
     try {
@@ -120,15 +135,21 @@ const QRComponent = ({ formConfig }) => {
         {formConfig.id}
       </div>
 
-      {/* Botón de descarga mejorado */}
+      {/* Botón de descarga mejorado - SOLO si está activo */}
       <div className="absolute -top-4 -left-4 z-20">
         <button
           onClick={downloadQR}
-          disabled={isDownloading}
-          className="group/btn relative w-10 h-10 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:via-indigo-500 hover:to-purple-500 text-white rounded-full flex items-center justify-center shadow-2xl shadow-blue-500/30 transition-all duration-300 transform hover:scale-110 hover:rotate-3 disabled:opacity-70 disabled:cursor-not-allowed"
-          title="Descargar QR como imagen HD"
+          disabled={isDownloading || !isActive} // 🚫 Deshabilitado si no está activo
+          className={`group/btn relative w-10 h-10 text-white rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 transform ${
+            isActive 
+              ? 'bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:via-indigo-500 hover:to-purple-500 shadow-blue-500/30 hover:scale-110 hover:rotate-3 cursor-pointer' 
+              : 'bg-gradient-to-r from-gray-400 to-gray-500 shadow-gray-500/30 cursor-not-allowed opacity-50'
+          } ${isDownloading ? 'opacity-70 cursor-not-allowed' : ''}`}
+          title={isActive ? 'Descargar QR como imagen HD' : 'Descarga no disponible fuera de horario'}
         >
-          {isDownloading ? (
+          {!isActive ? (
+            <Lock size={16} />
+          ) : isDownloading ? (
             <div className="animate-spin">
               <Download size={16} className="animate-pulse" />
             </div>
@@ -136,18 +157,35 @@ const QRComponent = ({ formConfig }) => {
             <Download size={16} className="group-hover/btn:animate-bounce" />
           )}
           
-          {/* Efecto de pulso */}
-          <div className="absolute inset-0 rounded-full bg-blue-400 animate-ping opacity-20"></div>
+          {/* Efecto de pulso solo si está activo */}
+          {isActive && (
+            <div className="absolute inset-0 rounded-full bg-blue-400 animate-ping opacity-20"></div>
+          )}
         </button>
         
         {/* Tooltip de feedback */}
         {showTooltip && (
-          <div className="absolute top-12 left-1/2 transform -translate-x-1/2 bg-green-600 text-white text-xs px-3 py-1 rounded-lg shadow-lg animate-fade-in-up">
+          <div className="absolute top-12 left-1/2 transform -translate-x-1/2 bg-green-600 text-white text-xs px-3 py-1 rounded-lg shadow-lg animate-fade-in-up z-30">
             ✅ ¡Descargado!
             <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-2 border-r-2 border-b-2 border-transparent border-b-green-600"></div>
           </div>
         )}
       </div>
+
+      {/* Alerta de acceso restringido */}
+      {showAccessAlert && (
+        <div className="absolute top-0 left-0 right-0 bg-red-600 text-white p-3 rounded-t-3xl z-30 animate-fade-in-up">
+          <div className="flex items-center justify-center gap-2 text-sm font-bold">
+            <AlertTriangle size={16} className="animate-pulse" />
+            <span>FUERA DE HORARIO</span>
+          </div>
+          <div className="text-xs text-center mt-1">
+            Disponible de 8:00 AM a 3:00 PM
+            <br />
+            (Hora de Bogotá, Colombia)
+          </div>
+        </div>
+      )}
 
       {/* Nombre del formulario mejorado */}
       <div className="text-center mb-6 relative z-10">
@@ -163,16 +201,25 @@ const QRComponent = ({ formConfig }) => {
           className={`relative p-4 rounded-2xl transition-all duration-500 cursor-pointer transform group-hover:scale-105 ${
             isActive 
               ? 'bg-white shadow-2xl hover:shadow-3xl ring-4 ring-green-100 hover:ring-green-200 shadow-green-200/20' 
-              : 'bg-gray-50 opacity-70 ring-4 ring-red-100 shadow-gray-200/20'
+              : 'bg-gray-50 ring-4 ring-red-100 shadow-gray-200/20'
           }`}
           onClick={handleQRClick}
-          title={isActive ? 'Clic para abrir formulario' : 'Fuera de horario'}
+          title={isActive ? 'Clic para abrir formulario' : 'Fuera de horario - Clic para ver información'}
         >
+          {/* Overlay de bloqueo cuando no está activo */}
+          {!isActive && (
+            <div className="absolute inset-0 bg-red-500/20 backdrop-blur-[1px] rounded-2xl flex items-center justify-center">
+              <div className="bg-red-600 text-white p-2 rounded-full animate-pulse">
+                <Lock size={20} />
+              </div>
+            </div>
+          )}
+          
           {/* Decorative corners */}
-          <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-blue-500 rounded-tl"></div>
-          <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-blue-500 rounded-tr"></div>
-          <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-blue-500 rounded-bl"></div>
-          <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-blue-500 rounded-br"></div>
+          <div className={`absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 rounded-tl ${isActive ? 'border-blue-500' : 'border-red-500'}`}></div>
+          <div className={`absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 rounded-tr ${isActive ? 'border-blue-500' : 'border-red-500'}`}></div>
+          <div className={`absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 rounded-bl ${isActive ? 'border-blue-500' : 'border-red-500'}`}></div>
+          <div className={`absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 rounded-br ${isActive ? 'border-blue-500' : 'border-red-500'}`}></div>
           
           <QRCode 
             ref={qrRef}
@@ -182,17 +229,23 @@ const QRComponent = ({ formConfig }) => {
               height: "140px", 
               maxWidth: "140px", 
               width: "140px",
-              filter: isActive ? 'none' : 'grayscale(100%)',
+              filter: isActive ? 'none' : 'grayscale(100%) opacity(0.6)',
               borderRadius: '12px'
             }}
           />
           
-          {/* Icono de enlace externo */}
-          {isActive && (
-            <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
-              <ExternalLink size={12} />
-            </div>
-          )}
+          {/* Icono de enlace externo o bloqueo */}
+          <div className="absolute -bottom-2 -right-2 w-6 h-6 text-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
+            {isActive ? (
+              <div className="bg-blue-500 w-6 h-6 rounded-full flex items-center justify-center">
+                <ExternalLink size={12} />
+              </div>
+            ) : (
+              <div className="bg-red-500 w-6 h-6 rounded-full flex items-center justify-center animate-pulse">
+                <Lock size={12} />
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -212,9 +265,20 @@ const QRComponent = ({ formConfig }) => {
 
       {/* Información de descarga mejorada */}
       <div className="text-center mt-4 relative z-10">
-        <p className="text-xs text-gray-500 flex items-center justify-center gap-2">
-          <Download size={12} />
-          <span>Descarga en alta resolución</span>
+        <p className={`text-xs flex items-center justify-center gap-2 ${
+          isActive ? 'text-gray-500' : 'text-red-500'
+        }`}>
+          {isActive ? (
+            <>
+              <Download size={12} />
+              <span>Descarga en alta resolución</span>
+            </>
+          ) : (
+            <>
+              <Lock size={12} />
+              <span>Descarga restringida</span>
+            </>
+          )}
         </p>
       </div>
 
