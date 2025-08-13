@@ -1,6 +1,6 @@
-// src/components/QRComponent.jsx - ACTUALIZADO con overlay rojo fuerte para estado deshabilitado
+// src/components/QRComponent.jsx - ACTUALIZADO con qrcode.react
 import React, { useRef, useState } from 'react';
-import QRCode from 'react-qr-code';
+import { QRCodeSVG as QRCode } from 'qrcode.react'; // 🔥 CAMBIO: Import correcto para qrcode.react
 import { Download, ExternalLink, Clock, CheckCircle, Hash, Lock, AlertTriangle } from 'lucide-react';
 import { useScheduleCheck } from '../hooks/useScheduleCheck';
 
