@@ -1,0 +1,46 @@
+// src/config/formsConfig.js
+// 🔥 SOLO CAMBIA LOS LINKS AQUÍ - NO TOQUES NADA MÁS
+
+export const FORM_CONFIGS = [
+  { id: 1, name: 'Formulario 01', url: 'https://forms.gle/CAMBIA_ESTE_LINK_1' },
+  { id: 2, name: 'Formulario 02', url: 'https://forms.gle/CAMBIA_ESTE_LINK_2' },
+  { id: 3, name: 'Formulario 03', url: 'https://forms.gle/CAMBIA_ESTE_LINK_3' },
+  { id: 4, name: 'Formulario 04', url: 'https://forms.gle/CAMBIA_ESTE_LINK_4' },
+  { id: 5, name: 'Formulario 05', url: 'https://forms.gle/CAMBIA_ESTE_LINK_5' },
+  { id: 6, name: 'Formulario 06', url: 'https://forms.gle/CAMBIA_ESTE_LINK_6' },
+  { id: 7, name: 'Formulario 07', url: 'https://forms.gle/CAMBIA_ESTE_LINK_7' },
+  { id: 8, name: 'Formulario 08', url: 'https://forms.gle/CAMBIA_ESTE_LINK_8' },
+  { id: 9, name: 'Formulario 09', url: 'https://forms.gle/CAMBIA_ESTE_LINK_9' },
+  { id: 10, name: 'Formulario 10', url: 'https://forms.gle/CAMBIA_ESTE_LINK_10' },
+  { id: 11, name: 'Formulario 11', url: 'https://forms.gle/CAMBIA_ESTE_LINK_11' },
+  { id: 12, name: 'Formulario 12', url: 'https://forms.gle/CAMBIA_ESTE_LINK_12' },
+  { id: 13, name: 'Formulario 13', url: 'https://forms.gle/CAMBIA_ESTE_LINK_13' },
+  { id: 14, name: 'Formulario 14', url: 'https://forms.gle/CAMBIA_ESTE_LINK_14' },
+  { id: 15, name: 'Formulario 15', url: 'https://forms.gle/CAMBIA_ESTE_LINK_15' },
+  { id: 16, name: 'Formulario 16', url: 'https://forms.gle/CAMBIA_ESTE_LINK_16' },
+  { id: 17, name: 'Formulario 17', url: 'https://forms.gle/CAMBIA_ESTE_LINK_17' },
+  { id: 18, name: 'Formulario 18', url: 'https://forms.gle/CAMBIA_ESTE_LINK_18' },
+  { id: 19, name: 'Formulario 19', url: 'https://forms.gle/CAMBIA_ESTE_LINK_19' },
+  { id: 20, name: 'Formulario 20', url: 'https://forms.gle/CAMBIA_ESTE_LINK_20' },
+  { id: 21, name: 'Formulario 21', url: 'https://forms.gle/CAMBIA_ESTE_LINK_21' },
+  { id: 22, name: 'Formulario 22', url: 'https://forms.gle/CAMBIA_ESTE_LINK_22' },
+  { id: 23, name: 'Formulario 23', url: 'https://forms.gle/CAMBIA_ESTE_LINK_23' },
+  { id: 24, name: 'Formulario 24', url: 'https://forms.gle/CAMBIA_ESTE_LINK_24' },
+  { id: 25, name: 'Formulario 25', url: 'https://forms.gle/CAMBIA_ESTE_LINK_25' },
+  { id: 26, name: 'Formulario 26', url: 'https://forms.gle/CAMBIA_ESTE_LINK_26' },
+  { id: 27, name: 'Formulario 27', url: 'https://forms.gle/CAMBIA_ESTE_LINK_27' },
+  { id: 28, name: 'Formulario 28', url: 'https://forms.gle/CAMBIA_ESTE_LINK_28' },
+  { id: 29, name: 'Formulario 29', url: 'https://forms.gle/CAMBIA_ESTE_LINK_29' },
+  { id: 30, name: 'Formulario 30', url: 'https://forms.gle/CAMBIA_ESTE_LINK_30' },
+  { id: 31, name: 'Formulario 31', url: 'https://forms.gle/CAMBIA_ESTE_LINK_31' },
+  { id: 32, name: 'Formulario 32', url: 'https://forms.gle/CAMBIA_ESTE_LINK_32' },
+  { id: 33, name: 'Formulario 33', url: 'https://forms.gle/CAMBIA_ESTE_LINK_33' },
+  { id: 34, name: 'Formulario 34', url: 'https://forms.gle/CAMBIA_ESTE_LINK_34' },
+  { id: 35, name: 'Formulario 35', url: 'https://forms.gle/CAMBIA_ESTE_LINK_35' },
+  { id: 36, name: 'Formulario 36', url: 'https://forms.gle/CAMBIA_ESTE_LINK_36' },
+  { id: 37, name: 'Formulario 37', url: 'https://forms.gle/CAMBIA_ESTE_LINK_37' },
+  { id: 38, name: 'Formulario 38', url: 'https://forms.gle/CAMBIA_ESTE_LINK_38' },
+];
+
+// ⚠️ NO CAMBIES NADA ABAJO DE ESTA LÍNEA
+export default FORM_CONFIGS;
