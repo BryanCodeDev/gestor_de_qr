@@ -1,7 +1,7 @@
 // src/config/scheduleConfig.js
 // 🕐 CONFIGURACIÓN DE HORARIOS DEL SISTEMA QR
 
-export const SCHEDULE_CONFIG = {
+const SCHEDULE_CONFIG = {
   // ⏰ Horario de operación (formato 24 horas)
   START_HOUR: 8,    // 8:00 AM
   END_HOUR: 15,     // 3:00 PM (15:00 en formato 24h)
@@ -38,7 +38,7 @@ export const SCHEDULE_CONFIG = {
  * @param {Date} date - Fecha a verificar
  * @returns {boolean} - True si es un día activo
  */
-export const isActiveDay = (date) => {
+const isActiveDay = (date) => {
   const dayOfWeek = date.getDay();
   return SCHEDULE_CONFIG.ACTIVE_DAYS.includes(dayOfWeek);
 };
@@ -48,8 +48,8 @@ export const isActiveDay = (date) => {
  * @param {Date} currentDate - Fecha actual
  * @returns {object} - Información del próximo horario
  */
-export const getNextAvailableTime = (currentDate) => {
-  const { START_HOUR, END_HOUR, ACTIVE_DAYS, TIMEZONE } = SCHEDULE_CONFIG;
+const getNextAvailableTime = (currentDate) => {
+  const { START_HOUR, ACTIVE_DAYS, TIMEZONE } = SCHEDULE_CONFIG;
   
   const bogotaTime = new Date(currentDate.toLocaleString("en-US", {
     timeZone: TIMEZONE
@@ -91,7 +91,7 @@ export const getNextAvailableTime = (currentDate) => {
  * Formatea el horario para mostrar
  * @returns {string} - Horario formateado
  */
-export const getScheduleDisplayText = () => {
+const getScheduleDisplayText = () => {
   const { START_HOUR, END_HOUR, ACTIVE_DAYS } = SCHEDULE_CONFIG;
   const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
   const activeDaysText = ACTIVE_DAYS.map(day => dayNames[day]).join(', ');
@@ -102,4 +102,8 @@ export const getScheduleDisplayText = () => {
   return `${activeDaysText}: ${startTime} - ${endTime}`;
 };
 
+// ✅ CRITICAL: Use NAMED EXPORTS for everything
+export { SCHEDULE_CONFIG, isActiveDay, getNextAvailableTime, getScheduleDisplayText };
+
+// ✅ ALSO provide as default export
 export default SCHEDULE_CONFIG;

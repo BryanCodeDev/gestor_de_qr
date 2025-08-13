@@ -5,7 +5,7 @@ import { SCHEDULE_CONFIG, isActiveDay, getNextAvailableTime } from '../config/sc
 export const useScheduleCheck = () => {
   const [isActive, setIsActive] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [scheduleInfo] = useState({
+  const [scheduleInfo, setScheduleInfo] = useState({
     startHour: SCHEDULE_CONFIG.START_HOUR,
     endHour: SCHEDULE_CONFIG.END_HOUR,
     timezone: SCHEDULE_CONFIG.TIMEZONE,
@@ -102,6 +102,15 @@ export const useScheduleCheck = () => {
     };
   };
 
+  // Función para actualizar horarios (para configuración)
+  const updateSchedule = (startHour, endHour) => {
+    setScheduleInfo(prev => ({
+      ...prev,
+      startHour,
+      endHour
+    }));
+  };
+
   return { 
     isActive, 
     currentTime,
@@ -123,12 +132,6 @@ export const useScheduleCheck = () => {
       day: 'numeric'
     }),
     // Función para cambiar horarios si es necesario (para configuración)
-    updateSchedule: (startHour, endHour) => {
-      setScheduleInfo(prev => ({
-        ...prev,
-        startHour,
-        endHour
-      }));
-    }
+    updateSchedule
   };
 };

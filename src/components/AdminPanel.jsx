@@ -1,6 +1,6 @@
 // src/components/AdminPanel.jsx (OPCIONAL - Solo para administradores)
 import React, { useState } from 'react';
-import { Settings, Clock, Save, Eye, EyeOff } from 'lucide-react';
+import { Settings, Save } from 'lucide-react';
 import { SCHEDULE_CONFIG, getScheduleDisplayText } from '../config/scheduleConfig';
 
 const AdminPanel = ({ onScheduleUpdate }) => {
@@ -20,7 +20,7 @@ const AdminPanel = ({ onScheduleUpdate }) => {
     if (adminKey === ADMIN_KEY) {
       setIsAuthenticated(true);
     } else {
-      alert('❌ Clave incorrecta');
+      alert('⛔ Clave incorrecta');
     }
   };
 

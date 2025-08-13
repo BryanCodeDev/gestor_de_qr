@@ -1,7 +1,7 @@
 // src/components/StatusBar.jsx
 import React from 'react';
 import { useScheduleCheck } from '../hooks/useScheduleCheck';
-import { Clock, CheckCircle, XCircle, AlertCircle, Download, Lock } from 'lucide-react';
+import { Clock, CheckCircle, XCircle, Download, Lock } from 'lucide-react';
 
 const StatusBar = () => {
   const { 
