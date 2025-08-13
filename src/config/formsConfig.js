@@ -2,7 +2,7 @@
 // 🔥 SOLO CAMBIA LOS LINKS AQUÍ - NO TOQUES NADA MÁS
 
 export const FORM_CONFIGS = [
-  { id: 1, name: 'Formulario 01', url: 'https://forms.gle/CAMBIA_ESTE_LINK_1' },
+  { id: 1, name: 'Formulario 01', url: 'https://mastercodecompany.com' },
   { id: 2, name: 'Formulario 02', url: 'https://forms.gle/CAMBIA_ESTE_LINK_2' },
   { id: 3, name: 'Formulario 03', url: 'https://forms.gle/CAMBIA_ESTE_LINK_3' },
   { id: 4, name: 'Formulario 04', url: 'https://forms.gle/CAMBIA_ESTE_LINK_4' },
