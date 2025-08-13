@@ -1,6 +1,6 @@
 // src/components/Footer.jsx
 import React from 'react';
-import { Code, Mail, Zap, Heart, Github, Linkedin, Globe, Award } from 'lucide-react';
+import { Code, Mail, Zap, Heart, Github, Globe, Award } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -68,10 +68,6 @@ const Footer = () => {
 
           {/* Información del desarrollador */}
           <div className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-3xl p-8 border border-gray-700/50 shadow-2xl">
-            <h4 className="text-xl font-bold text-white mb-6 flex items-center justify-center gap-2">
-              <Heart className="text-red-400 animate-pulse" size={20} />
-              Desarrollado con Pasión
-            </h4>
             
             <div className="grid md:grid-cols-3 gap-6">
               
@@ -93,10 +89,10 @@ const Footer = () => {
                 </div>
                 <h5 className="text-white font-bold mb-1">Contacto</h5>
                 <a 
-                  href="mailto:tiagotroller01019@gmail.com" 
+                  href="mailto:mastercodecompany@gmail.com" 
                   className="text-gray-300 text-sm text-center hover:text-green-400 transition-colors duration-300 leading-relaxed break-all"
                 >
-                  tiagotroller01019@gmail.com
+                  mastercodecompany@gmail.com
                 </a>
               </div>
               
@@ -115,18 +111,11 @@ const Footer = () => {
             {/* Enlaces sociales */}
             <div className="flex items-center justify-center gap-4 mt-8">
               <button 
-                onClick={() => window.open('https://github.com', '_blank')}
+                onClick={() => window.open('https://github.com/BryanCodeDev', '_blank')}
                 className="group p-3 bg-gray-700 hover:bg-blue-600 rounded-full transition-all duration-300 transform hover:scale-110 hover:rotate-12"
                 title="Visitar GitHub"
               >
                 <Github className="text-white group-hover:animate-pulse" size={20} />
-              </button>
-              <button 
-                onClick={() => window.open('https://linkedin.com', '_blank')}
-                className="group p-3 bg-gray-700 hover:bg-blue-500 rounded-full transition-all duration-300 transform hover:scale-110 hover:-rotate-12"
-                title="Visitar LinkedIn"
-              >
-                <Linkedin className="text-white group-hover:animate-pulse" size={20} />
               </button>
               <button 
                 onClick={() => window.open('https://mastercodecompany.com', '_blank')}
@@ -177,7 +166,7 @@ const Footer = () => {
             </span>
             <span className="flex items-center gap-2">
               <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-              Última Actualización: 2024
+              Última Actualización: 2025
             </span>
             <span className="flex items-center gap-2">
               <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
@@ -186,13 +175,7 @@ const Footer = () => {
           </div>
           
           <p className="text-xs text-gray-500 leading-relaxed">
-            © 2024 MasterCode Company. Todos los derechos reservados.
-            <br />
-            <span className="text-gray-600">
-              Desarrollado con 
-              <Heart className="inline mx-1 text-red-400 animate-pulse" size={12} />
-              utilizando React, Tailwind CSS y Lucide Icons
-            </span>
+            © 2025 MasterCode Company. Todos los derechos reservados.
           </p>
         </div>
 
