@@ -14,7 +14,7 @@ const AdminPanel = ({ onScheduleUpdate }) => {
   });
 
   // Clave de administrador simple (cambiar por algo más seguro en producción)
-  const ADMIN_KEY = 'mastercode2024';
+  const ADMIN_KEY = 'mastercode2025';
 
   const handleAuth = () => {
     if (adminKey === ADMIN_KEY) {
