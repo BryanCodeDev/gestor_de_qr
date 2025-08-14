@@ -1,4 +1,4 @@
-// src/App.jsx - ACTUALIZADO con AdminPanel habilitado en producción
+// src/App.jsx - COMPLETAMENTE CORREGIDO con routing funcional
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
@@ -6,7 +6,7 @@ import StatusBar from './components/StatusBar';
 import QRComponent from './components/QRComponent';
 import Footer from './components/Footer';
 import AdminPanel from './components/AdminPanel';
-import QRRedirect from './pages/QRRedirect.jsx';
+import QRRedirect from './pages/QRRedirect';
 import { FORM_CONFIGS } from './config/formsConfig';
 import { useScheduleCheck } from './hooks/useScheduleCheck';
 
@@ -17,7 +17,7 @@ const HomePage = () => {
   // Función para manejar actualizaciones de configuración desde el panel admin
   const handleScheduleUpdate = (newConfig) => {
     // En una implementación real, esto se conectaría con una API o localStorage
-    console.log('📝 Nueva configuración de horarios:', newConfig);
+    console.log('🔧 Nueva configuración de horarios:', newConfig);
     
     // Mostrar confirmación detallada
     const configDetails = `
@@ -162,11 +162,11 @@ contacta al desarrollador para actualizar los archivos de configuración.
                 </p>
                 <p className="flex items-start gap-2">
                   <span className="text-green-500 font-bold">3.</span>
-                  <span>Si está activo: se redirige al formulario</span>
+                  <span>Si está activo: redirección INMEDIATA al formulario</span>
                 </p>
                 <p className="flex items-start gap-2">
                   <span className="text-orange-500 font-bold">4.</span>
-                  <span>Si está inactivo: muestra horarios disponibles</span>
+                  <span>Si está inactivo: regresa al sistema principal</span>
                 </p>
                 <p className="flex items-start gap-2">
                   <span className="text-purple-500 font-bold">💡</span>
@@ -214,7 +214,31 @@ contacta al desarrollador para actualizar los archivos de configuración.
   );
 };
 
-// 🎯 COMPONENTE APP PRINCIPAL CON ROUTER
+// 🛠️ COMPONENTE DE PÁGINA NO ENCONTRADA MEJORADO
+const NotFoundPage = () => {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50 to-pink-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-3xl p-8 shadow-2xl border border-red-200 max-w-md w-full text-center">
+        <div className="text-6xl mb-4">🔍</div>
+        <h1 className="text-2xl font-bold text-red-800 mb-4">Página No Encontrada</h1>
+        <p className="text-red-600 mb-6">La URL que buscas no existe en este sistema</p>
+        <div className="space-y-3">
+          <button 
+            onClick={() => window.location.href = '/'}
+            className="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+          >
+            🏠 Volver al Inicio
+          </button>
+          <p className="text-xs text-gray-500">
+            Si escaneaste un QR, verifica que esté funcionando correctamente
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// 🎯 COMPONENTE APP PRINCIPAL CON ROUTER CORREGIDO
 const App = () => {
   return (
     <Router>
@@ -226,21 +250,7 @@ const App = () => {
         <Route path="/qr/:formId" element={<QRRedirect />} />
         
         {/* 🚫 Ruta de fallback para URLs no encontradas */}
-        <Route path="*" element={
-          <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50 to-pink-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-3xl p-8 shadow-2xl border border-red-200 max-w-md w-full text-center">
-              <div className="text-6xl mb-4">🔍</div>
-              <h1 className="text-2xl font-bold text-red-800 mb-4">Página No Encontrada</h1>
-              <p className="text-red-600 mb-6">La URL que buscas no existe</p>
-              <button 
-                onClick={() => window.location.href = '/'}
-                className="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
-              >
-                Volver al Inicio
-              </button>
-            </div>
-          </div>
-        } />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

@@ -1,6 +1,6 @@
-// src/components/QRComponent.jsx - ACTUALIZADO con qrcode.react
+// src/components/QRComponent.jsx - CORREGIDO con URLs correctos
 import React, { useRef, useState } from 'react';
-import { QRCodeSVG as QRCode } from 'qrcode.react'; // 🔥 CAMBIO: Import correcto para qrcode.react
+import { QRCodeSVG as QRCode } from 'qrcode.react';
 import { Download, ExternalLink, Clock, CheckCircle, Hash, Lock, AlertTriangle } from 'lucide-react';
 import { useScheduleCheck } from '../hooks/useScheduleCheck';
 
@@ -11,8 +11,13 @@ const QRComponent = ({ formConfig }) => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [showAccessAlert, setShowAccessAlert] = useState(false);
 
-  // 🎯 URL INTELIGENTE: Ahora TODOS los QR apuntan a la página de redirección
-  const redirectUrl = `https://gestor-qr.netlify.app/qr/${formConfig.id}`;
+  // 🎯 URL INTELIGENTE: TODOS los QR apuntan a la página de redirección
+  // Para desarrollo local: http://localhost:3000/qr/${formConfig.id}
+  // Para producción: https://gestor-qr.netlify.app/qr/${formConfig.id}
+  const baseUrl = window.location.origin; // Detecta automáticamente si es local o producción
+  const redirectUrl = `${baseUrl}/qr/${formConfig.id}`;
+
+  console.log(`🔗 QR URL generada para formulario ${formConfig.id}: ${redirectUrl}`);
 
   // Función para mostrar alerta de horario cuando no está activo
   const showScheduleAlert = () => {
@@ -22,6 +27,7 @@ const QRComponent = ({ formConfig }) => {
 
   // Función para manejar clic en QR
   const handleQRClick = () => {
+    console.log(`🖱️ Clic en QR ${formConfig.id} - Abriendo: ${redirectUrl}`);
     // Siempre abrir la página de redirección (que internamente manejará el horario)
     window.open(redirectUrl, '_blank');
   };

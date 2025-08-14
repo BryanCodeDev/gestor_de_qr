@@ -1,44 +1,49 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Clock, AlertTriangle, CheckCircle, ArrowRight, Calendar, MapPin, Home } from 'lucide-react';
+import { Clock, AlertTriangle, CheckCircle, ArrowRight, MapPin, Home } from 'lucide-react';
 import { FORM_CONFIGS } from '../config/formsConfig';
 import { useScheduleCheck } from '../hooks/useScheduleCheck';
 
 const QRRedirect = () => {
   const { formId } = useParams();
   const { isActive, timeString, scheduleInfo, nextSchedule } = useScheduleCheck();
-  const [countdown, setCountdown] = useState(3);
-  const [redirectCountdown, setRedirectCountdown] = useState(8); // 8 segundos para redirigir a página principal
   const [formConfig, setFormConfig] = useState(null);
+  const [redirectCountdown, setRedirectCountdown] = useState(3); // Reducido a 3 segundos
 
   useEffect(() => {
     // Encontrar la configuración del formulario
     const config = FORM_CONFIGS.find(f => f.id === parseInt(formId));
     setFormConfig(config);
+    
+    console.log(`🔍 Formulario solicitado: ID ${formId}`);
+    console.log(`📊 Sistema activo: ${isActive}`);
+    console.log(`📝 Configuración encontrada:`, config);
 
-    // Si está ACTIVO, redirigir al formulario de Google después del countdown
-    if (isActive && config) {
-      const timer = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev <= 1) {
-            // 🎯 REDIRECCIÓN AL FORMULARIO DE GOOGLE
-            window.location.href = config.url;
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-
-      return () => clearInterval(timer);
+    if (!config) {
+      console.log('❌ Formulario no encontrado');
+      return;
     }
 
-    // Si está INACTIVO, redirigir a la página principal después de 8 segundos
+    // ✅ SI ESTÁ ACTIVO: Redirigir INMEDIATAMENTE al formulario de Google
+    if (isActive) {
+      console.log('✅ Sistema ACTIVO - Redirigiendo inmediatamente al formulario:', config.url);
+      
+      // Redirección inmediata sin esperar
+      setTimeout(() => {
+        window.location.href = config.url;
+      }, 100); // Solo 100ms para mostrar el mensaje brevemente
+      return;
+    }
+
+    // ❌ SI ESTÁ INACTIVO: Redirigir a la página principal después de 3 segundos
     if (!isActive) {
+      console.log('❌ Sistema INACTIVO - Redirigiendo a página principal en 3 segundos');
       const redirectTimer = setInterval(() => {
         setRedirectCountdown((prev) => {
           if (prev <= 1) {
-            // 🏠 REDIRECCIÓN A LA PÁGINA PRINCIPAL DEL SISTEMA QR
-            window.location.href = 'https://gestor-qr.netlify.app/';
+            // 🏠 REDIRECCIÓN A LA PÁGINA PRINCIPAL
+            console.log('🏠 Redirigiendo a página principal...');
+            window.location.href = '/';
             return 0;
           }
           return prev - 1;
@@ -54,21 +59,21 @@ const QRRedirect = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50 to-pink-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-3xl p-8 shadow-2xl border border-red-200 max-w-md w-full text-center">
-          <div className="text-6xl mb-4">❌</div>
+          <div className="text-6xl mb-4">⚠️</div>
           <h1 className="text-2xl font-bold text-red-800 mb-4">Formulario No Encontrado</h1>
-          <p className="text-red-600 mb-6">El código QR escaneado no es válido</p>
+          <p className="text-red-600 mb-6">El código QR escaneado no es válido (ID: {formId})</p>
           <button 
-            onClick={() => window.location.href = 'https://gestor-qr.netlify.app/'}
+            onClick={() => window.location.href = '/'}
             className="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
           >
-            Volver al Sistema QR
+            🏠 Volver al Sistema QR
           </button>
         </div>
       </div>
     );
   }
 
-  // Si está ACTIVO - Página de redirección automática AL FORMULARIO DE GOOGLE
+  // ✅ SI ESTÁ ACTIVO - Página de redirección INMEDIATA
   if (isActive) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-indigo-50 flex items-center justify-center p-4">
@@ -86,49 +91,25 @@ const QRRedirect = () => {
 
             {/* Título */}
             <h1 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4">
-              ✅ Sistema Activo
+              ✅ Accediendo al Formulario
             </h1>
 
             {/* Info del formulario */}
             <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl p-6 mb-6 border border-green-200">
               <h2 className="text-xl font-bold text-gray-800 mb-2">{formConfig.name}</h2>
-              <p className="text-sm text-gray-600 mb-4">🎯 Redirigiendo al formulario de Google...</p>
+              <p className="text-sm text-gray-600 mb-4">🎯 Redirigiendo automáticamente...</p>
               
-              {/* Countdown */}
+              {/* Loading spinner */}
               <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xl animate-pulse">
-                  {countdown}
-                </div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
                 <div className="text-left">
-                  <p className="text-sm font-semibold text-gray-700">Accediendo en</p>
-                  <p className="text-xs text-gray-500">{countdown} segundo{countdown !== 1 ? 's' : ''}</p>
+                  <p className="text-sm font-semibold text-gray-700">Un momento...</p>
+                  <p className="text-xs text-gray-500">Te llevamos al formulario</p>
                 </div>
               </div>
-
-              {/* Barra de progreso */}
-              <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                <div 
-                  className="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full transition-all duration-1000 animate-pulse"
-                  style={{ width: `${((3 - countdown) / 3) * 100}%` }}
-                ></div>
-              </div>
             </div>
 
-            {/* Información de horario actual */}
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="bg-gray-50 rounded-xl p-3 text-center">
-                <Clock className="mx-auto text-blue-500 mb-1" size={20} />
-                <p className="text-xs text-gray-500">Hora Actual</p>
-                <p className="text-sm font-bold text-gray-800">{timeString}</p>
-              </div>
-              <div className="bg-gray-50 rounded-xl p-3 text-center">
-                <Calendar className="mx-auto text-green-500 mb-1" size={20} />
-                <p className="text-xs text-gray-500">Estado</p>
-                <p className="text-sm font-bold text-green-600">DISPONIBLE</p>
-              </div>
-            </div>
-
-            {/* Botón de redirección manual AL FORMULARIO */}
+            {/* Botón de redirección manual */}
             <button 
               onClick={() => window.location.href = formConfig.url}
               className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
@@ -138,7 +119,7 @@ const QRRedirect = () => {
             </button>
 
             <p className="text-xs text-gray-400 mt-3">
-              🎯 Te llevamos directamente al formulario de Google Forms
+              🎯 Redirección automática en curso
             </p>
           </div>
         </div>
@@ -146,7 +127,7 @@ const QRRedirect = () => {
     );
   }
 
-  // Si está INACTIVO - Página de horario restringido CON REDIRECCIÓN A PÁGINA PRINCIPAL
+  // ❌ SI ESTÁ INACTIVO - Página de horario restringido CON REDIRECCIÓN A PÁGINA PRINCIPAL
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-orange-50 to-pink-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-3xl p-8 shadow-2xl border border-red-200 max-w-lg w-full text-center relative overflow-hidden">
@@ -176,7 +157,7 @@ const QRRedirect = () => {
             {/* 🏠 CONTADOR DE REDIRECCIÓN A PÁGINA PRINCIPAL */}
             <div className="bg-blue-50 rounded-xl p-4 mb-4 border border-blue-200">
               <div className="flex items-center justify-center gap-3 mb-3">
-                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-sm animate-pulse">
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-lg animate-pulse">
                   {redirectCountdown}
                 </div>
                 <div className="text-left">
@@ -189,10 +170,10 @@ const QRRedirect = () => {
               </div>
               
               {/* Barra de progreso de redirección */}
-              <div className="w-full bg-blue-200 rounded-full h-2 overflow-hidden">
+              <div className="w-full bg-blue-200 rounded-full h-3 overflow-hidden">
                 <div 
-                  className="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-1000"
-                  style={{ width: `${((8 - redirectCountdown) / 8) * 100}%` }}
+                  className="bg-gradient-to-r from-blue-500 to-indigo-500 h-3 rounded-full transition-all duration-1000"
+                  style={{ width: `${((3 - redirectCountdown) / 3) * 100}%` }}
                 ></div>
               </div>
             </div>
@@ -245,7 +226,7 @@ const QRRedirect = () => {
 
           {/* Botón para volver al sistema MANUALMENTE */}
           <button 
-            onClick={() => window.location.href = 'https://gestor-qr.netlify.app/'}
+            onClick={() => window.location.href = '/'}
             className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 mb-4"
           >
             <Home size={20} />
