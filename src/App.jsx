@@ -1,4 +1,4 @@
-// src/App.jsx - ACTUALIZADO con React Router
+// src/App.jsx - ACTUALIZADO con AdminPanel habilitado en producción
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
@@ -6,7 +6,7 @@ import StatusBar from './components/StatusBar';
 import QRComponent from './components/QRComponent';
 import Footer from './components/Footer';
 import AdminPanel from './components/AdminPanel';
-import QRRedirect from './pages/QRRedirect.jsx'; // 🎯 NUEVA PÁGINA
+import QRRedirect from './pages/QRRedirect.jsx';
 import { FORM_CONFIGS } from './config/formsConfig';
 import { useScheduleCheck } from './hooks/useScheduleCheck';
 
@@ -17,9 +17,24 @@ const HomePage = () => {
   // Función para manejar actualizaciones de configuración desde el panel admin
   const handleScheduleUpdate = (newConfig) => {
     // En una implementación real, esto se conectaría con una API o localStorage
-    console.log('Nueva configuración de horarios:', newConfig);
-    // Por ahora solo mostramos la configuración en consola
+    console.log('📝 Nueva configuración de horarios:', newConfig);
+    
+    // Mostrar confirmación detallada
+    const configDetails = `
+🔧 NUEVA CONFIGURACIÓN:
+• Hora inicio: ${newConfig.startHour}:00
+• Hora fin: ${newConfig.endHour}:00  
+• Días activos: ${newConfig.activeDays.length} días
+• Estado: Configuración temporal aplicada
+
+⚠️ IMPORTANTE: Para cambios permanentes en producción, 
+contacta al desarrollador para actualizar los archivos de configuración.
+    `;
+    
+    console.log(configDetails);
+    
     // En producción, esto requeriría persistencia de datos
+    // Por ahora solo mostramos la configuración en consola
   };
 
   return (
@@ -100,6 +115,10 @@ const HomePage = () => {
                   <span className="text-gray-600">QR Inteligente:</span>
                   <span className="font-bold text-purple-600">HABILITADO</span>
                 </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Panel Admin:</span>
+                  <span className="font-bold text-indigo-600">DISPONIBLE</span>
+                </div>
               </div>
             </div>
 
@@ -120,6 +139,9 @@ const HomePage = () => {
                 <div>
                   <span className="text-gray-600 text-sm">Zona Horaria:</span>
                   <p className="font-medium text-gray-800">Bogotá, Colombia</p>
+                </div>
+                <div className="pt-2 border-t border-gray-200">
+                  <span className="text-gray-600 text-xs">⚙️ Configuración modificable desde panel admin</span>
                 </div>
               </div>
             </div>
@@ -150,6 +172,10 @@ const HomePage = () => {
                   <span className="text-purple-500 font-bold">💡</span>
                   <span className="text-xs">Los QR impresos funcionan dinámicamente</span>
                 </p>
+                <p className="flex items-start gap-2">
+                  <span className="text-indigo-500 font-bold">⚙️</span>
+                  <span className="text-xs">Panel admin disponible (botón inferior derecha)</span>
+                </p>
               </div>
             </div>
           </div>
@@ -159,10 +185,8 @@ const HomePage = () => {
       {/* Footer */}
       <Footer />
       
-      {/* Panel de administración (opcional - solo aparece si se necesita) */}
-      {process.env.NODE_ENV === 'development' && (
-        <AdminPanel onScheduleUpdate={handleScheduleUpdate} />
-      )}
+      {/* 🎯 PANEL DE ADMINISTRACIÓN - SIEMPRE DISPONIBLE */}
+      <AdminPanel onScheduleUpdate={handleScheduleUpdate} />
 
       {/* Indicador de conexión (opcional) */}
       <div className="fixed bottom-4 left-4 z-30">
@@ -177,6 +201,13 @@ const HomePage = () => {
           <span>
             {isActive ? 'Sistema Online' : 'Fuera de Horario'}
           </span>
+        </div>
+      </div>
+
+      {/* Indicador de panel admin disponible */}
+      <div className="fixed bottom-16 right-16 z-20">
+        <div className="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-lg text-xs font-medium shadow-lg border border-indigo-200 animate-pulse">
+          ⚙️ Admin
         </div>
       </div>
     </div>
