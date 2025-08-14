@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Clock, AlertTriangle, CheckCircle, ArrowRight, Calendar, MapPin } from 'lucide-react';
+import { Clock, AlertTriangle, CheckCircle, ArrowRight, Calendar, MapPin, Home } from 'lucide-react';
 import { FORM_CONFIGS } from '../config/formsConfig';
 import { useScheduleCheck } from '../hooks/useScheduleCheck';
 
@@ -8,6 +8,7 @@ const QRRedirect = () => {
   const { formId } = useParams();
   const { isActive, timeString, scheduleInfo, nextSchedule } = useScheduleCheck();
   const [countdown, setCountdown] = useState(3);
+  const [redirectCountdown, setRedirectCountdown] = useState(8); // 8 segundos para redirigir a página principal
   const [formConfig, setFormConfig] = useState(null);
 
   useEffect(() => {
@@ -15,11 +16,12 @@ const QRRedirect = () => {
     const config = FORM_CONFIGS.find(f => f.id === parseInt(formId));
     setFormConfig(config);
 
-    // Si está activo, redirigir después del countdown
+    // Si está ACTIVO, redirigir al formulario de Google después del countdown
     if (isActive && config) {
       const timer = setInterval(() => {
         setCountdown((prev) => {
           if (prev <= 1) {
+            // 🎯 REDIRECCIÓN AL FORMULARIO DE GOOGLE
             window.location.href = config.url;
             return 0;
           }
@@ -28,6 +30,22 @@ const QRRedirect = () => {
       }, 1000);
 
       return () => clearInterval(timer);
+    }
+
+    // Si está INACTIVO, redirigir a la página principal después de 8 segundos
+    if (!isActive) {
+      const redirectTimer = setInterval(() => {
+        setRedirectCountdown((prev) => {
+          if (prev <= 1) {
+            // 🏠 REDIRECCIÓN A LA PÁGINA PRINCIPAL DEL SISTEMA QR
+            window.location.href = 'https://gestor-qr.netlify.app/';
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(redirectTimer);
     }
   }, [formId, isActive, formConfig]);
 
@@ -50,7 +68,7 @@ const QRRedirect = () => {
     );
   }
 
-  // Si está ACTIVO - Página de redirección automática
+  // Si está ACTIVO - Página de redirección automática AL FORMULARIO DE GOOGLE
   if (isActive) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-indigo-50 flex items-center justify-center p-4">
@@ -74,7 +92,7 @@ const QRRedirect = () => {
             {/* Info del formulario */}
             <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl p-6 mb-6 border border-green-200">
               <h2 className="text-xl font-bold text-gray-800 mb-2">{formConfig.name}</h2>
-              <p className="text-sm text-gray-600 mb-4">Redirigiendo al formulario solicitado...</p>
+              <p className="text-sm text-gray-600 mb-4">🎯 Redirigiendo al formulario de Google...</p>
               
               {/* Countdown */}
               <div className="flex items-center justify-center gap-3 mb-4">
@@ -82,7 +100,7 @@ const QRRedirect = () => {
                   {countdown}
                 </div>
                 <div className="text-left">
-                  <p className="text-sm font-semibold text-gray-700">Redirigiendo en</p>
+                  <p className="text-sm font-semibold text-gray-700">Accediendo en</p>
                   <p className="text-xs text-gray-500">{countdown} segundo{countdown !== 1 ? 's' : ''}</p>
                 </div>
               </div>
@@ -110,7 +128,7 @@ const QRRedirect = () => {
               </div>
             </div>
 
-            {/* Botón de redirección manual */}
+            {/* Botón de redirección manual AL FORMULARIO */}
             <button 
               onClick={() => window.location.href = formConfig.url}
               className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
@@ -120,7 +138,7 @@ const QRRedirect = () => {
             </button>
 
             <p className="text-xs text-gray-400 mt-3">
-              Si no se redirige automáticamente, haz clic en el botón
+              🎯 Te llevamos directamente al formulario de Google Forms
             </p>
           </div>
         </div>
@@ -128,7 +146,7 @@ const QRRedirect = () => {
     );
   }
 
-  // Si está INACTIVO - Página de horario restringido
+  // Si está INACTIVO - Página de horario restringido CON REDIRECCIÓN A PÁGINA PRINCIPAL
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-orange-50 to-pink-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-3xl p-8 shadow-2xl border border-red-200 max-w-lg w-full text-center relative overflow-hidden">
@@ -155,6 +173,30 @@ const QRRedirect = () => {
               ⏰ Acceso restringido fuera del horario de atención
             </p>
             
+            {/* 🏠 CONTADOR DE REDIRECCIÓN A PÁGINA PRINCIPAL */}
+            <div className="bg-blue-50 rounded-xl p-4 mb-4 border border-blue-200">
+              <div className="flex items-center justify-center gap-3 mb-3">
+                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-sm animate-pulse">
+                  {redirectCountdown}
+                </div>
+                <div className="text-left">
+                  <p className="text-sm font-semibold text-blue-800 flex items-center gap-2">
+                    <Home size={16} />
+                    Regresando al sistema
+                  </p>
+                  <p className="text-xs text-blue-600">{redirectCountdown} segundos</p>
+                </div>
+              </div>
+              
+              {/* Barra de progreso de redirección */}
+              <div className="w-full bg-blue-200 rounded-full h-2 overflow-hidden">
+                <div 
+                  className="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-1000"
+                  style={{ width: `${((8 - redirectCountdown) / 8) * 100}%` }}
+                ></div>
+              </div>
+            </div>
+            
             {/* Horarios de servicio */}
             <div className="bg-white rounded-xl p-4 mb-4 border border-red-100">
               <h3 className="text-sm font-bold text-gray-800 mb-3 flex items-center justify-center gap-2">
@@ -177,8 +219,8 @@ const QRRedirect = () => {
 
             {/* Próximo horario disponible */}
             {nextSchedule && (
-              <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
-                <p className="text-sm text-blue-800">
+              <div className="bg-amber-50 rounded-xl p-4 border border-amber-200">
+                <p className="text-sm text-amber-800">
                   <span className="font-semibold">📅 Próximo acceso:</span>
                   <br />
                   {nextSchedule.nextAvailable}
@@ -201,13 +243,13 @@ const QRRedirect = () => {
             </div>
           </div>
 
-          {/* Botón para volver al sistema */}
+          {/* Botón para volver al sistema MANUALMENTE */}
           <button 
             onClick={() => window.location.href = 'https://gestor-qr.netlify.app/'}
-            className="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 mb-4"
+            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 mb-4"
           >
-            <span>Ver Sistema QR Completo</span>
-            <ArrowRight size={20} />
+            <Home size={20} />
+            <span>Ir al Sistema QR Ahora</span>
           </button>
 
           <p className="text-xs text-gray-500">
@@ -219,7 +261,7 @@ const QRRedirect = () => {
             <p className="text-xs text-gray-400">
               Sistema desarrollado por MasterCode Company
               <br />
-              Para soporte técnico, visita nuestro sitio web
+              QR Codes Inteligentes con redirección automática
             </p>
           </div>
         </div>
