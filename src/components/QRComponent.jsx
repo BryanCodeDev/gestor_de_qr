@@ -59,7 +59,7 @@ const QRComponent = ({ formConfig }) => {
       35: 'VINAS.webp',
       36: 'Y&Y.webp',
       37: 'YADAH FOOD.webp',
-      38: 'YADAH FOOD.webp' // Usando el mismo logo para el 38
+      38: 'YOKAI.webp' // Usando el mismo logo para el 38
     };
 
     const logoFileName = logoMap[formId];
