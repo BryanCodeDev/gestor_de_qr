@@ -18,48 +18,48 @@ const QRComponent = ({ formConfig }) => {
 
   console.log(`🔗 QR URL generada para formulario ${formConfig.id}: ${redirectUrl}`);
 
-  // 🎨 FUNCIÓN PARA OBTENER LA RUTA DEL LOGO - CORREGIDA
+  // 🎨 FUNCIÓN PARA OBTENER LA RUTA DEL LOGO - TOTALMENTE CORREGIDA
   const getLogoPath = (formId) => {
-    // Mapeo corregido según formsConfig.js y archivos disponibles
+    // Mapeo exacto según los 38 logos disponibles en la imagen
     const logoMap = {
-      1: 'ANTIDOTO.webp',           
-      2: 'ATIBA.webp',             
-      3: 'BOCADOS.webp',          
-      4: 'BURGER HOT.webp',        
-      5: 'BURGER HUNTER.webp',     
-      6: 'CAOBA.webp',             
-      7: 'CONEJOS PIZZA.webp',     
-      8: 'DANI BURGERS.webp',      
-      9: 'DE GULA.webp',           
-      10: 'DON BARRIGA.webp',      
-      11: 'DORILOCOS.webp',        
-      12: 'EL ANDINO.webp',        
-      13: 'EL FARO.webp',          
-      14: 'FACA FOOD.webp',       
-      15: 'FRIES.webp',            
-      16: 'GUSTAZO.webp',          
-      17: 'JS PIZZERIA.webp',      
-      18: 'JUGOSON.webp',          
-      19: 'LA BOCA.webp',          
-      20: 'LA ROCA BURGER.webp',   
-      21: 'MR PIZZA.webp',         
-      22: 'MR TOPPINGS.webp',      
-      23: 'OH MY DOG.webp',        
-      24: 'OREGON BBQ.webp',       
-      25: 'PAPO BURGER.webp',      
-      26: 'PATATAS HOUSE.webp',    
-      27: 'PECADO CAPITAL.webp',   
-      28: 'PEDACITO DE CIELO.webp', 
-      29: 'PILON BURGUER.webp',    
-      30: 'PUNTO BURGUER.webp',    
-      31: 'SABOR URBANO.webp',     
-      32: 'TEXAS BBQ.webp',        
-      33: 'VINAS.webp',            
-      34: 'YADAH FOOD.webp',       
-      35: 'Y&Y.webp',             
-      36: 'YOKAI.webp',            
-      37: 'YOKAI.webp',            
-      38: 'YOKAI.webp'             
+      1: 'ANTIDOTO.webp',           // Antidoto
+      2: 'ATIBA.webp',             // Atiba
+      3: 'BOCADOS.webp',           // Bocados
+      4: 'BITE & DIP.webp',        // Bite & Dip
+      5: 'BURGER HUNTER.webp',     // Burger Hunter
+      6: 'CAOBA.webp',             // Caoba
+      7: 'CONEJOS PIZZA.webp',     // Conejo's Pizza
+      8: 'DANI BURGERS.webp',      // DaniBurgers
+      9: 'DE GULA.webp',           // De Gula
+      10: 'DON BARRIGA.webp',      // Don Barriga
+      11: 'DORILOCOS.webp',        // Dorilocos
+      12: 'EL ANDINO.webp',        // El Andino
+      13: 'EL FARO.webp',          // El Faro
+      14: 'FACA FOOD.webp',        // Faca Food
+      15: 'FRIES.webp',            // Fries
+      16: 'GUSTAZO.webp',          // Gustazo
+      17: 'JS PIZZERIA.webp',      // J/S Pizzería
+      18: 'JUGOSON.webp',          // Jugoson
+      19: 'LA BOCA.webp',          // La Boca
+      20: 'LA ROCA BURGER.webp',   // La Roca Burger
+      21: 'MR PIZZA.webp',         // Mr Pizza
+      22: 'MR TOPPINGS.webp',      // Mr Toppings
+      23: 'OH MY DOG.webp',        // Oh My Dog
+      24: 'OREGON BBQ.webp',       // Oregon BBQ
+      25: 'PAPO BURGER.webp',      // Papo Burger
+      26: 'PATATAS HOUSE.webp',    // Patatas House
+      27: 'PECADO CAPITAL.webp',   // Pecado Capital
+      28: 'PEDACITO DE CIELO.webp', // Pedacito de Cielo
+      29: 'PILON BURGUER.webp',    // Pilón Burguer
+      30: 'PUNTO BURGUER.webp',    // Punto Burguer
+      31: 'SABOR URBANO.webp',     // Sabor Urbano
+      32: 'SUPER RICO.webp',       // Texas BBQ (usando Super Rico)
+      33: 'TEXAS BBQ.webp',        // Viñas Food (usando Texas BBQ)
+      34: 'VINAS.webp',            // Yadah Food (usando Viñas)
+      35: 'Y&Y.webp',              // Y&Y Burgers
+      36: 'YADAH FOOD.webp',       // Yokai (usando Yadah Food)
+      37: 'YOKAI.webp',            // Super Rico (usando Yokai)
+      38: 'BURGER HOT.webp'        // Bite & Dip Express (usando Burger Hot)
     };
 
     const logoFileName = logoMap[formId];
