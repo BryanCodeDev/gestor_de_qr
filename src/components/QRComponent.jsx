@@ -1,4 +1,4 @@
-// src/components/QRComponent.jsx - CORREGIDO con URLs correctos
+// src/components/QRComponent.jsx - CON LOGOS AGREGADOS
 import React, { useRef, useState } from 'react';
 import { QRCodeSVG as QRCode } from 'qrcode.react';
 import { Download, ExternalLink, Clock, CheckCircle, Hash, Lock, AlertTriangle } from 'lucide-react';
@@ -10,14 +10,61 @@ const QRComponent = ({ formConfig }) => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [showAccessAlert, setShowAccessAlert] = useState(false);
+  const [logoError, setLogoError] = useState(false);
 
-  // 🎯 URL INTELIGENTE: TODOS los QR apuntan a la página de redirección
-  // Para desarrollo local: http://localhost:3000/qr/${formConfig.id}
-  // Para producción: https://gestor-qr.netlify.app/qr/${formConfig.id}
-  const baseUrl = window.location.origin; // Detecta automáticamente si es local o producción
+  // URL INTELIGENTE: TODOS los QR apuntan a la página de redirección
+  const baseUrl = window.location.origin;
   const redirectUrl = `${baseUrl}/qr/${formConfig.id}`;
 
   console.log(`🔗 QR URL generada para formulario ${formConfig.id}: ${redirectUrl}`);
+
+  // 🎨 FUNCIÓN PARA OBTENER LA RUTA DEL LOGO
+  const getLogoPath = (formId) => {
+    // Mapeo de IDs a nombres de archivos de logo
+    const logoMap = {
+      1: 'ANTIDOTO.webp',
+      2: 'ATIBA.webp',
+      3: 'BOCADOS.webp',
+      4: 'BITE & DIP.webp',
+      5: 'BURGER HOT.webp',
+      6: 'BURGER HUNTER.webp',
+      7: 'CAOBA.webp',
+      8: 'CONEJOS PIZZA.webp',
+      9: 'DANI BURGERS.webp',
+      10: 'DE GULA.webp',
+      11: 'DON BARRIGA.webp',
+      12: 'DORILOCOS.webp',
+      13: 'EL ANDINO.webp',
+      14: 'EL FARO.webp',
+      15: 'FACA FOOD.webp',
+      16: 'FRIES.webp',
+      17: 'GUSTAZO.webp',
+      18: 'JS PIZZERIA.webp',
+      19: 'JUGOSON.webp',
+      20: 'LA BOCA.webp',
+      21: 'LA ROCA BURGER.webp',
+      22: 'MR PIZZA.webp',
+      23: 'MR TOPPINGS.webp',
+      24: 'OH MY DOG.webp',
+      25: 'OREGON BBQ.webp',
+      26: 'PAPO BURGER.webp',
+      27: 'PATATAS HOUSE.webp',
+      28: 'PECADO CAPITAL.webp',
+      29: 'PEDACITO DE CIELO.webp',
+      30: 'PILON BURGUER.webp',
+      31: 'PUNTO BURGUER.webp',
+      32: 'SABOR URBANO.webp',
+      33: 'SUPER RICO.webp',
+      34: 'TEXAS BBQ.webp',
+      35: 'VINAS.webp',
+      36: 'Y&Y.webp',
+      37: 'YADAH FOOD.webp',
+      38: 'YADAH FOOD.webp' // Usando el mismo logo para el 38
+    };
+
+    const logoFileName = logoMap[formId];
+    return logoFileName ? `/assets/img/${logoFileName}` : null;
+  };
 
   // Función para mostrar alerta de horario cuando no está activo
   const showScheduleAlert = () => {
@@ -28,13 +75,11 @@ const QRComponent = ({ formConfig }) => {
   // Función para manejar clic en QR
   const handleQRClick = () => {
     console.log(`🖱️ Clic en QR ${formConfig.id} - Abriendo: ${redirectUrl}`);
-    // Siempre abrir la página de redirección (que internamente manejará el horario)
     window.open(redirectUrl, '_blank');
   };
 
   // Función para descargar QR (solo si está activo)
   const downloadQR = async () => {
-    // 🚫 Bloquear descarga si no está activo
     if (!isActive) {
       showScheduleAlert();
       return;
@@ -43,17 +88,15 @@ const QRComponent = ({ formConfig }) => {
     setIsDownloading(true);
     
     try {
-      // Crear un canvas temporal para generar la imagen
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       
-      // Configurar el tamaño del canvas (más grande para mejor calidad)
       const size = 500;
       const padding = 50;
       const qrSize = size - (padding * 2);
       
       canvas.width = size;
-      canvas.height = size + 100; // Espacio extra para el texto
+      canvas.height = size + 100;
       
       // Fondo blanco con sutil gradiente
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
@@ -105,10 +148,8 @@ const QRComponent = ({ formConfig }) => {
         link.href = canvas.toDataURL('image/png', 1.0);
         link.click();
         
-        // Limpiar URL temporal
         URL.revokeObjectURL(svgUrl);
         
-        // Mostrar feedback de éxito
         setShowTooltip(true);
         setTimeout(() => setShowTooltip(false), 2000);
       };
@@ -120,6 +161,13 @@ const QRComponent = ({ formConfig }) => {
       setTimeout(() => setIsDownloading(false), 1000);
     }
   };
+
+  // 🎨 FUNCIÓN PARA MANEJAR ERROR DE LOGO
+  const handleLogoError = () => {
+    setLogoError(true);
+  };
+
+  const logoPath = getLogoPath(formConfig.id);
 
   return (
     <div className={`group relative bg-white rounded-3xl p-6 shadow-xl border-2 transition-all duration-500 hover:shadow-2xl transform hover:-translate-y-2 ${
@@ -141,11 +189,11 @@ const QRComponent = ({ formConfig }) => {
         {formConfig.id}
       </div>
 
-      {/* Botón de descarga mejorado - SOLO si está activo */}
+      {/* Botón de descarga mejorado */}
       <div className="absolute -top-4 -left-4 z-20">
         <button
           onClick={downloadQR}
-          disabled={isDownloading || !isActive} // 🚫 Deshabilitado si no está activo
+          disabled={isDownloading || !isActive}
           className={`group/btn relative w-10 h-10 text-white rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 transform ${
             isActive 
               ? 'bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:via-indigo-500 hover:to-purple-500 shadow-blue-500/30 hover:scale-110 hover:rotate-3 cursor-pointer' 
@@ -163,13 +211,11 @@ const QRComponent = ({ formConfig }) => {
             <Download size={16} className="group-hover/btn:animate-bounce" />
           )}
           
-          {/* Efecto de pulso solo si está activo */}
           {isActive && (
             <div className="absolute inset-0 rounded-full bg-blue-400 animate-ping opacity-20"></div>
           )}
         </button>
         
-        {/* Tooltip de feedback */}
         {showTooltip && (
           <div className="absolute top-12 left-1/2 transform -translate-x-1/2 bg-green-600 text-white text-xs px-3 py-1 rounded-lg shadow-lg animate-fade-in-up z-30">
             ✅ ¡Descargado!
@@ -193,9 +239,29 @@ const QRComponent = ({ formConfig }) => {
         </div>
       )}
 
+      {/* 🎨 LOGO DEL RESTAURANTE - NUEVO */}
+      <div className="text-center mb-4 relative z-10">
+        <div className="w-16 h-16 mx-auto mb-3 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 border-2 border-gray-200 shadow-lg flex items-center justify-center">
+          {logoPath && !logoError ? (
+            <img
+              src={logoPath}
+              alt={`Logo ${formConfig.name}`}
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+              onError={handleLogoError}
+              onLoad={() => setLogoError(false)}
+            />
+          ) : (
+            // Logo placeholder cuando no hay imagen o hay error
+            <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+              {formConfig.name.charAt(0)}
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* Nombre del formulario mejorado */}
       <div className="text-center mb-6 relative z-10">
-        <h3 className="text-base font-bold bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 bg-clip-text text-transparent leading-tight">
+        <h3 className="text-sm font-bold bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 bg-clip-text text-transparent leading-tight px-2">
           {formConfig.name}
         </h3>
         <div className="w-12 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-2 rounded-full"></div>
@@ -218,25 +284,25 @@ const QRComponent = ({ formConfig }) => {
           <div className={`absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 rounded-bl ${isActive ? 'border-blue-500' : 'border-red-600'}`}></div>
           <div className={`absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 rounded-br ${isActive ? 'border-blue-500' : 'border-red-600'}`}></div>
           
-          {/* 🎯 QR CODE INTELIGENTE - Siempre apunta a la página de redirección */}
+          {/* QR CODE INTELIGENTE */}
           <div className="relative">
             <QRCode 
               ref={qrRef}
-              value={redirectUrl} // 🔥 CAMBIO CRÍTICO: Ahora usa redirectUrl
-              size={140}
+              value={redirectUrl}
+              size={120} // Reducido para dar espacio al logo
               style={{ 
-                height: "140px", 
-                maxWidth: "140px", 
-                width: "140px",
+                height: "120px", 
+                maxWidth: "120px", 
+                width: "120px",
                 borderRadius: '12px'
               }}
             />
             
-            {/* 🔥 OVERLAY ROJO FUERTE SOLO CUANDO ESTÁ DESHABILITADO */}
+            {/* OVERLAY ROJO FUERTE SOLO CUANDO ESTÁ DESHABILITADO */}
             {!isActive && (
               <div className="absolute inset-0 bg-gradient-to-br from-red-600/95 via-red-700/95 to-red-800/95 rounded-xl flex items-center justify-center backdrop-blur-sm">
                 <div className="text-center text-white">
-                  <Lock size={32} className="mx-auto mb-2 animate-pulse drop-shadow-lg" />
+                  <Lock size={28} className="mx-auto mb-2 animate-pulse drop-shadow-lg" />
                   <div className="text-xs font-bold drop-shadow-lg">
                     BLOQUEADO
                   </div>

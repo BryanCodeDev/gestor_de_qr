@@ -1,4 +1,4 @@
-// src/components/AdminPanel.jsx - VERSIÓN MEJORADA PARA PRODUCCIÓN
+// src/components/AdminPanel.jsx - ACTUALIZADO CON NUEVOS HORARIOS POR DEFECTO
 import React, { useState, useEffect } from 'react';
 import { Settings, Save, Eye, EyeOff, Shield, Clock } from 'lucide-react';
 import { SCHEDULE_CONFIG, getScheduleDisplayText } from '../config/scheduleConfig';
@@ -12,12 +12,12 @@ const AdminPanel = ({ onScheduleUpdate }) => {
   const [isBlocked, setIsBlocked] = useState(false);
   const [blockTimeRemaining, setBlockTimeRemaining] = useState(0);
   const [tempConfig, setTempConfig] = useState({
-    startHour: SCHEDULE_CONFIG.START_HOUR,
-    endHour: SCHEDULE_CONFIG.END_HOUR,
-    activeDays: [...SCHEDULE_CONFIG.ACTIVE_DAYS]
+    startHour: SCHEDULE_CONFIG.START_HOUR, // Ahora 1 AM
+    endHour: SCHEDULE_CONFIG.END_HOUR,     // Ahora 11 PM
+    activeDays: [...SCHEDULE_CONFIG.ACTIVE_DAYS] // Ahora todos los días [0,1,2,3,4,5,6]
   });
 
-  // 🔐 CLAVES DE ADMINISTRADOR MÚLTIPLES (más seguro)
+  // 🔐 CLAVES DE ADMINISTRADOR MÚLTIPLES
   const ADMIN_KEYS = [
     'mastercode2025',
     'admin2025qr',
@@ -111,7 +111,7 @@ const AdminPanel = ({ onScheduleUpdate }) => {
     setIsAuthenticated(false);
     setAdminKey('');
     setAttempts(0);
-    console.log('🔐 Sesión administrativa cerrada');
+    console.log('🚪 Sesión administrativa cerrada');
   };
 
   const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
@@ -253,13 +253,14 @@ const AdminPanel = ({ onScheduleUpdate }) => {
               </button>
             </div>
 
-            {/* Estado actual del sistema */}
+            {/* 🔥 ESTADO ACTUAL DEL SISTEMA ACTUALIZADO */}
             <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-4 mb-6">
               <h4 className="text-sm font-bold text-green-800 mb-2 flex items-center gap-2">
                 <Clock size={16} />
                 Configuración Actual
               </h4>
               <p className="text-sm text-green-700">{getScheduleDisplayText()}</p>
+              <p className="text-xs text-green-600 mt-1">📱 24/7: Disponible todos los días de 1:00 AM a 11:00 PM</p>
             </div>
 
             <div className="space-y-6">
@@ -331,13 +332,16 @@ const AdminPanel = ({ onScheduleUpdate }) => {
                     </button>
                   ))}
                 </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  💡 Por defecto: Todos los días seleccionados (24/7)
+                </p>
               </div>
 
               {/* Vista previa */}
               <div className="bg-gradient-to-r from-gray-50 to-gray-100 border border-gray-200 rounded-xl p-4">
                 <h4 className="text-sm font-medium text-gray-800 mb-2">👀 Vista Previa</h4>
                 <p className="text-sm text-gray-700">
-                  <span className="font-semibold">Días:</span> {tempConfig.activeDays.map(d => dayNames[d]).join(', ')}
+                  <span className="font-semibold">Días:</span> {tempConfig.activeDays.map(d => dayNames[d]).join(', ') || 'Ninguno'}
                   <br />
                   <span className="font-semibold">Horario:</span> {' '}
                   {tempConfig.startHour === 0 ? '12:00 AM' : 
@@ -356,9 +360,9 @@ const AdminPanel = ({ onScheduleUpdate }) => {
                 <button
                   onClick={() => {
                     setTempConfig({
-                      startHour: SCHEDULE_CONFIG.START_HOUR,
-                      endHour: SCHEDULE_CONFIG.END_HOUR,
-                      activeDays: [...SCHEDULE_CONFIG.ACTIVE_DAYS]
+                      startHour: SCHEDULE_CONFIG.START_HOUR, // 1 AM
+                      endHour: SCHEDULE_CONFIG.END_HOUR,     // 11 PM
+                      activeDays: [...SCHEDULE_CONFIG.ACTIVE_DAYS] // Todos los días
                     });
                   }}
                   className="flex-1 bg-gray-600 hover:bg-gray-700 text-white py-3 px-4 rounded-xl font-medium transition-all duration-200"

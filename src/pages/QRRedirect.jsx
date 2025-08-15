@@ -6,18 +6,21 @@ import { useScheduleCheck } from '../hooks/useScheduleCheck';
 
 const QRRedirect = () => {
   const { formId } = useParams();
-  const { isActive, timeString, scheduleInfo, nextSchedule } = useScheduleCheck();
+  const { isActive, timeString, nextSchedule } = useScheduleCheck();
   const [formConfig, setFormConfig] = useState(null);
-  const [redirectCountdown, setRedirectCountdown] = useState(3); // Reducido a 3 segundos
+  const [redirectCountdown, setRedirectCountdown] = useState(3);
 
   useEffect(() => {
     // Encontrar la configuración del formulario
     const config = FORM_CONFIGS.find(f => f.id === parseInt(formId));
     setFormConfig(config);
     
+    // 🎯 DEBUG ESPECÍFICO PARA iOS
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     console.log(`🔍 Formulario solicitado: ID ${formId}`);
     console.log(`📊 Sistema activo: ${isActive}`);
-    console.log(`📝 Configuración encontrada:`, config);
+    console.log(`📱 Es iOS: ${isIOS}`);
+    console.log(`🔧 Configuración encontrada:`, config);
 
     if (!config) {
       console.log('❌ Formulario no encontrado');
@@ -28,10 +31,12 @@ const QRRedirect = () => {
     if (isActive) {
       console.log('✅ Sistema ACTIVO - Redirigiendo inmediatamente al formulario:', config.url);
       
-      // Redirección inmediata sin esperar
+      // 🎯 DELAY LIGERAMENTE MAYOR PARA iOS (mejor compatibilidad)
+      const redirectDelay = isIOS ? 300 : 100;
+      
       setTimeout(() => {
         window.location.href = config.url;
-      }, 100); // Solo 100ms para mostrar el mensaje brevemente
+      }, redirectDelay);
       return;
     }
 
@@ -178,7 +183,7 @@ const QRRedirect = () => {
               </div>
             </div>
             
-            {/* Horarios de servicio */}
+            {/* 🔥 HORARIOS ACTUALIZADOS - 1:00 AM a 11:00 PM TODOS LOS DÍAS */}
             <div className="bg-white rounded-xl p-4 mb-4 border border-red-100">
               <h3 className="text-sm font-bold text-gray-800 mb-3 flex items-center justify-center gap-2">
                 <Clock size={16} />
@@ -186,10 +191,10 @@ const QRRedirect = () => {
               </h3>
               <div className="space-y-2 text-sm">
                 <p className="text-gray-700">
-                  <span className="font-semibold">Días:</span> Lunes a Viernes
+                  <span className="font-semibold">Días:</span> Todos los días (24/7)
                 </p>
                 <p className="text-gray-700">
-                  <span className="font-semibold">Horario:</span> {scheduleInfo.startHour}:00 AM - {scheduleInfo.endHour}:00 PM
+                  <span className="font-semibold">Horario:</span> 1:00 AM - 11:00 PM
                 </p>
                 <p className="text-gray-700 flex items-center justify-center gap-1">
                   <MapPin size={14} />
