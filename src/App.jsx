@@ -1,4 +1,4 @@
-// src/App.jsx - COMPLETAMENTE CORREGIDO con routing funcional
+// src/App.jsx - COMPLETAMENTE CORREGIDO con routing funcional y colores unificados
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
@@ -38,7 +38,7 @@ contacta al desarrollador para actualizar los archivos de configuración.
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 relative">
       
       {/* Header con información de estado */}
       <Header />
@@ -51,7 +51,7 @@ contacta al desarrollador para actualizar los archivos de configuración.
         
         {/* Mensaje informativo cuando el sistema está inactivo */}
         {!isActive && (
-          <div className="mb-8 p-6 bg-gradient-to-r from-amber-50 to-orange-50 border-l-4 border-amber-500 rounded-lg shadow-lg">
+          <div className="mb-8 p-6 bg-gradient-to-r from-amber-50 to-orange-50 border-l-4 border-amber-500 rounded-xl shadow-lg">
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center">
@@ -65,7 +65,7 @@ contacta al desarrollador para actualizar los archivos de configuración.
                 <p className="text-amber-700 text-sm mt-1">
                   Los códigos QR y descargas están temporalmente deshabilitados. 
                   Los formularios estarán disponibles durante el horario de atención: 
-                  <span className="font-semibold"> 8:00 AM - 3:00 PM (Hora de Bogotá)</span>
+                  <span className="font-semibold"> 1:00 AM - 11:00 PM (Hora de Bogotá)</span>
                 </p>
                 <p className="text-amber-600 text-xs mt-2">
                   💡 Los QR codes redirigen automáticamente según el horario establecido
@@ -85,73 +85,73 @@ contacta al desarrollador para actualizar los archivos de configuración.
           ))}
         </div>
 
-        {/* Información adicional del sistema */}
+        {/* Información adicional del sistema con colores unificados */}
         <div className="mt-12 mb-8">
           <div className="grid md:grid-cols-3 gap-6">
             
             {/* Estadísticas del sistema */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-200">
-              <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-slate-200">
+              <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
                 📊 Estadísticas
               </h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Total Formularios:</span>
+                  <span className="text-slate-600">Total Formularios:</span>
                   <span className="font-bold text-blue-600">{FORM_CONFIGS.length}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Estado Actual:</span>
+                  <span className="text-slate-600">Estado Actual:</span>
                   <span className={`font-bold ${isActive ? 'text-green-600' : 'text-red-600'}`}>
                     {isActive ? 'ACTIVO' : 'INACTIVO'}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Descargas:</span>
-                  <span className={`font-bold ${isActive ? 'text-green-600' : 'text-gray-500'}`}>
+                  <span className="text-slate-600">Descargas:</span>
+                  <span className={`font-bold ${isActive ? 'text-green-600' : 'text-slate-500'}`}>
                     {isActive ? 'DISPONIBLES' : 'RESTRINGIDAS'}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">QR Inteligente:</span>
+                  <span className="text-slate-600">QR Inteligente:</span>
                   <span className="font-bold text-purple-600">HABILITADO</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Panel Admin:</span>
-                  <span className="font-bold text-indigo-600">DISPONIBLE</span>
+                  <span className="text-slate-600">Panel Admin:</span>
+                  <span className="font-bold text-blue-600">DISPONIBLE</span>
                 </div>
               </div>
             </div>
 
             {/* Información de horarios */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-200">
-              <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-slate-200">
+              <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
                 ⏰ Horarios
               </h3>
               <div className="space-y-3">
                 <div>
-                  <span className="text-gray-600 text-sm">Días Activos:</span>
-                  <p className="font-medium text-gray-800">Lunes - Viernes</p>
+                  <span className="text-slate-600 text-sm">Días Activos:</span>
+                  <p className="font-medium text-slate-800">Todos los días (24/7)</p>
                 </div>
                 <div>
-                  <span className="text-gray-600 text-sm">Horario:</span>
-                  <p className="font-medium text-gray-800">8:00 AM - 3:00 PM</p>
+                  <span className="text-slate-600 text-sm">Horario:</span>
+                  <p className="font-medium text-slate-800">1:00 AM - 11:00 PM</p>
                 </div>
                 <div>
-                  <span className="text-gray-600 text-sm">Zona Horaria:</span>
-                  <p className="font-medium text-gray-800">Bogotá, Colombia</p>
+                  <span className="text-slate-600 text-sm">Zona Horaria:</span>
+                  <p className="font-medium text-slate-800">Bogotá, Colombia</p>
                 </div>
-                <div className="pt-2 border-t border-gray-200">
-                  <span className="text-gray-600 text-xs">⚙️ Configuración modificable desde panel admin</span>
+                <div className="pt-2 border-t border-slate-200">
+                  <span className="text-slate-600 text-xs">⚙️ Configuración modificable desde panel admin</span>
                 </div>
               </div>
             </div>
 
             {/* Instrucciones de uso actualizadas */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-200">
-              <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-slate-200">
+              <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
                 📱 Instrucciones
               </h3>
-              <div className="space-y-2 text-sm text-gray-600">
+              <div className="space-y-2 text-sm text-slate-600">
                 <p className="flex items-start gap-2">
                   <span className="text-blue-500 font-bold">1.</span>
                   <span>Escanea el QR con tu dispositivo móvil</span>
@@ -165,7 +165,7 @@ contacta al desarrollador para actualizar los archivos de configuración.
                   <span>Si está activo: redirección INMEDIATA al formulario</span>
                 </p>
                 <p className="flex items-start gap-2">
-                  <span className="text-orange-500 font-bold">4.</span>
+                  <span className="text-amber-500 font-bold">4.</span>
                   <span>Si está inactivo: regresa al sistema principal</span>
                 </p>
                 <p className="flex items-start gap-2">
@@ -173,7 +173,7 @@ contacta al desarrollador para actualizar los archivos de configuración.
                   <span className="text-xs">Los QR impresos funcionan dinámicamente</span>
                 </p>
                 <p className="flex items-start gap-2">
-                  <span className="text-indigo-500 font-bold">⚙️</span>
+                  <span className="text-blue-600 font-bold">⚙️</span>
                   <span className="text-xs">Panel admin disponible (botón inferior derecha)</span>
                 </p>
               </div>
@@ -188,7 +188,7 @@ contacta al desarrollador para actualizar los archivos de configuración.
       {/* 🎯 PANEL DE ADMINISTRACIÓN - SIEMPRE DISPONIBLE */}
       <AdminPanel onScheduleUpdate={handleScheduleUpdate} />
 
-      {/* Indicador de conexión (opcional) */}
+      {/* Indicador de conexión (opcional) con colores unificados */}
       <div className="fixed bottom-4 left-4 z-30">
         <div className={`flex items-center gap-2 px-3 py-2 rounded-full text-xs font-medium shadow-lg backdrop-blur-sm transition-all duration-300 ${
           isActive 
@@ -204,9 +204,9 @@ contacta al desarrollador para actualizar los archivos de configuración.
         </div>
       </div>
 
-      {/* Indicador de panel admin disponible */}
+      {/* Indicador de panel admin disponible con colores unificados */}
       <div className="fixed bottom-16 right-16 z-20">
-        <div className="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-lg text-xs font-medium shadow-lg border border-indigo-200 animate-pulse">
+        <div className="bg-blue-100 text-blue-800 px-2 py-1 rounded-lg text-xs font-medium shadow-lg border border-blue-200 animate-pulse">
           ⚙️ Admin
         </div>
       </div>
@@ -217,7 +217,7 @@ contacta al desarrollador para actualizar los archivos de configuración.
 // 🛠️ COMPONENTE DE PÁGINA NO ENCONTRADA MEJORADO
 const NotFoundPage = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50 to-pink-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50 to-slate-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-3xl p-8 shadow-2xl border border-red-200 max-w-md w-full text-center">
         <div className="text-6xl mb-4">🔍</div>
         <h1 className="text-2xl font-bold text-red-800 mb-4">Página No Encontrada</h1>
@@ -229,7 +229,7 @@ const NotFoundPage = () => {
           >
             🏠 Volver al Inicio
           </button>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-slate-500">
             Si escaneaste un QR, verifica que esté funcionando correctamente
           </p>
         </div>
