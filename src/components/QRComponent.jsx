@@ -1,4 +1,4 @@
-// src/components/QRComponent.jsx - CON LOGOS AGREGADOS
+// src/components/QRComponent.jsx - LOGOS CORREGIDOS
 import React, { useRef, useState } from 'react';
 import { QRCodeSVG as QRCode } from 'qrcode.react';
 import { Download, ExternalLink, Clock, CheckCircle, Hash, Lock, AlertTriangle } from 'lucide-react';
@@ -18,48 +18,48 @@ const QRComponent = ({ formConfig }) => {
 
   console.log(`🔗 QR URL generada para formulario ${formConfig.id}: ${redirectUrl}`);
 
-  // 🎨 FUNCIÓN PARA OBTENER LA RUTA DEL LOGO
+  // 🎨 FUNCIÓN PARA OBTENER LA RUTA DEL LOGO - CORREGIDA
   const getLogoPath = (formId) => {
-    // Mapeo de IDs a nombres de archivos de logo
+    // Mapeo corregido según formsConfig.js y archivos disponibles
     const logoMap = {
-      1: 'ANTIDOTO.webp',
-      2: 'ATIBA.webp',
-      3: 'BOCADOS.webp',
-      4: 'BITE & DIP.webp',
-      5: 'BURGER HOT.webp',
-      6: 'BURGER HUNTER.webp',
-      7: 'CAOBA.webp',
-      8: 'CONEJOS PIZZA.webp',
-      9: 'DANI BURGERS.webp',
-      10: 'DE GULA.webp',
-      11: 'DON BARRIGA.webp',
-      12: 'DORILOCOS.webp',
-      13: 'EL ANDINO.webp',
-      14: 'EL FARO.webp',
-      15: 'FACA FOOD.webp',
-      16: 'FRIES.webp',
-      17: 'GUSTAZO.webp',
-      18: 'JS PIZZERIA.webp',
-      19: 'JUGOSON.webp',
-      20: 'LA BOCA.webp',
-      21: 'LA ROCA BURGER.webp',
-      22: 'MR PIZZA.webp',
-      23: 'MR TOPPINGS.webp',
-      24: 'OH MY DOG.webp',
-      25: 'OREGON BBQ.webp',
-      26: 'PAPO BURGER.webp',
-      27: 'PATATAS HOUSE.webp',
-      28: 'PECADO CAPITAL.webp',
-      29: 'PEDACITO DE CIELO.webp',
-      30: 'PILON BURGUER.webp',
-      31: 'PUNTO BURGUER.webp',
-      32: 'SABOR URBANO.webp',
-      33: 'SUPER RICO.webp',
-      34: 'TEXAS BBQ.webp',
-      35: 'VINAS.webp',
-      36: 'Y&Y.webp',
-      37: 'YADAH FOOD.webp',
-      38: 'YOKAI.webp' // Usando el mismo logo para el 38
+      1: 'ANTIDOTO.webp',           
+      2: 'ATIBA.webp',             
+      3: 'BOCADOS.webp',          
+      4: 'BURGER HOT.webp',        
+      5: 'BURGER HUNTER.webp',     
+      6: 'CAOBA.webp',             
+      7: 'CONEJOS PIZZA.webp',     
+      8: 'DANI BURGERS.webp',      
+      9: 'DE GULA.webp',           
+      10: 'DON BARRIGA.webp',      
+      11: 'DORILOCOS.webp',        
+      12: 'EL ANDINO.webp',        
+      13: 'EL FARO.webp',          
+      14: 'FACA FOOD.webp',       
+      15: 'FRIES.webp',            
+      16: 'GUSTAZO.webp',          
+      17: 'JS PIZZERIA.webp',      
+      18: 'JUGOSON.webp',          
+      19: 'LA BOCA.webp',          
+      20: 'LA ROCA BURGER.webp',   
+      21: 'MR PIZZA.webp',         
+      22: 'MR TOPPINGS.webp',      
+      23: 'OH MY DOG.webp',        
+      24: 'OREGON BBQ.webp',       
+      25: 'PAPO BURGER.webp',      
+      26: 'PATATAS HOUSE.webp',    
+      27: 'PECADO CAPITAL.webp',   
+      28: 'PEDACITO DE CIELO.webp', 
+      29: 'PILON BURGUER.webp',    
+      30: 'PUNTO BURGUER.webp',    
+      31: 'SABOR URBANO.webp',     
+      32: 'TEXAS BBQ.webp',        
+      33: 'VINAS.webp',            
+      34: 'YADAH FOOD.webp',       
+      35: 'Y&Y.webp',             
+      36: 'YOKAI.webp',            
+      37: 'YOKAI.webp',            
+      38: 'YOKAI.webp'             
     };
 
     const logoFileName = logoMap[formId];
@@ -239,7 +239,7 @@ const QRComponent = ({ formConfig }) => {
         </div>
       )}
 
-      {/* 🎨 LOGO DEL RESTAURANTE - NUEVO */}
+      {/* 🎨 LOGO DEL RESTAURANTE - CORREGIDO */}
       <div className="text-center mb-4 relative z-10">
         <div className="w-16 h-16 mx-auto mb-3 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 border-2 border-gray-200 shadow-lg flex items-center justify-center">
           {logoPath && !logoError ? (
