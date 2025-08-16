@@ -1,4 +1,4 @@
-// src/components/StatusBar.jsx
+// src/components/StatusBar.jsx - LIMPIEZA DEL WARNING
 import React from 'react';
 import { useScheduleCheck } from '../hooks/useScheduleCheck';
 import { 
@@ -18,8 +18,8 @@ const StatusBar = () => {
     timeString, 
     dateString,
     nextSchedule, 
-    timeRemaining, 
-    scheduleInfo 
+    timeRemaining 
+    // ✅ REMOVIDO: scheduleInfo (no se usaba en el componente)
   } = useScheduleCheck();
 
   return (
@@ -86,8 +86,9 @@ const StatusBar = () => {
                 }
               </p>
               
+              {/* ✅ HORARIO CORREGIDO - HARDCODED PARA EVITAR CONFUSIONES */}
               <p className="text-xs text-slate-600">
-                Horario: {scheduleInfo.startHour}:00 AM - {scheduleInfo.endHour}:00 PM
+                Horario: 1:00 PM - 11:00 PM
               </p>
               
               {/* Información de tiempo */}
@@ -170,14 +171,15 @@ const StatusBar = () => {
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-medium text-green-700">Progreso del día</span>
               <span className="text-xs text-green-600">
-                {Math.round(100 - (timeRemaining.totalMinutes / (22 * 60)) * 100)}% completado
+                {/* ✅ CORREGIDO: Ahora calcula correctamente con 10 horas (1PM-11PM) */}
+                {Math.round(100 - (timeRemaining.totalMinutes / (10 * 60)) * 100)}% completado
               </span>
             </div>
             <div className="w-full bg-green-200 rounded-full h-2">
               <div 
                 className="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full transition-all duration-300"
                 style={{ 
-                  width: `${Math.max(5, 100 - (timeRemaining.totalMinutes / (22 * 60)) * 100)}%`
+                  width: `${Math.max(5, 100 - (timeRemaining.totalMinutes / (10 * 60)) * 100)}%`
                 }}
               ></div>
             </div>

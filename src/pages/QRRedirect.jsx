@@ -17,7 +17,7 @@ const QRRedirect = () => {
     
     // 🎯 DEBUG ESPECÍFICO PARA iOS
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    console.log(`🔍 Formulario solicitado: ID ${formId}`);
+    console.log(`📍 Formulario solicitado: ID ${formId}`);
     console.log(`📊 Sistema activo: ${isActive}`);
     console.log(`📱 Es iOS: ${isIOS}`);
     console.log(`🔧 Configuración encontrada:`, config);
@@ -183,7 +183,7 @@ const QRRedirect = () => {
               </div>
             </div>
             
-            {/* 🔥 HORARIOS ACTUALIZADOS - 1:00 AM a 11:00 PM TODOS LOS DÍAS */}
+            {/* 🔥 HORARIOS ACTUALIZADOS - 1:00 PM a 11:00 PM TODOS LOS DÍAS */}
             <div className="bg-white rounded-xl p-4 mb-4 border border-red-100">
               <h3 className="text-sm font-bold text-gray-800 mb-3 flex items-center justify-center gap-2">
                 <Clock size={16} />
@@ -193,8 +193,8 @@ const QRRedirect = () => {
                 <p className="text-gray-700">
                   <span className="font-semibold">Días:</span> Todos los días (24/7)
                 </p>
-                <p className="text-gray-700">
-                  <span className="font-semibold">Horario:</span> 1:00 AM - 11:00 PM
+                <p className="text-gray-700 text-lg font-bold text-blue-600">
+                  <span className="font-semibold">Horario:</span> 1:00 PM - 11:00 PM
                 </p>
                 <p className="text-gray-700 flex items-center justify-center gap-1">
                   <MapPin size={14} />

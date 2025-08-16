@@ -65,7 +65,7 @@ contacta al desarrollador para actualizar los archivos de configuración.
                 <p className="text-amber-700 text-sm mt-1">
                   Los códigos QR y descargas están temporalmente deshabilitados. 
                   Los formularios estarán disponibles durante el horario de atención: 
-                  <span className="font-semibold"> 1:00 AM - 11:00 PM (Hora de Bogotá)</span>
+                  <span className="font-semibold"> 1:00 PM - 11:00 PM (Hora de Bogotá)</span>
                 </p>
                 <p className="text-amber-600 text-xs mt-2">
                   💡 Los QR codes redirigen automáticamente según el horario establecido

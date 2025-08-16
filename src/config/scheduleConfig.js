@@ -1,9 +1,9 @@
 // src/config/scheduleConfig.js
-// 🕐 CONFIGURACIÓN DE HORARIOS DEL SISTEMA QR - ACTUALIZADA 24/7
+// 🕐 CONFIGURACIÓN DE HORARIOS DEL SISTEMA QR - ACTUALIZADA A 1:00 PM - 11:00 PM
 
 const SCHEDULE_CONFIG = {
   // ⏰ Horario de operación (formato 24 horas)
-  START_HOUR: 1,    // 1:00 AM
+  START_HOUR: 13,    // 1:00 PM (13:00 en formato 24h)
   END_HOUR: 23,     // 11:00 PM (23:00 en formato 24h)
   
   // 🌎 Zona horaria
@@ -25,7 +25,7 @@ const SCHEDULE_CONFIG = {
     INACTIVE_DESCRIPTION: 'Fuera de horario de atención',
     OUT_OF_SCHEDULE_ALERT: {
       title: 'FUERA DE HORARIO',
-      description: 'Los formularios están disponibles de 1:00 AM a 11:00 PM\n(Hora de Bogotá, Colombia)'
+      description: 'Los formularios están disponibles de 1:00 PM a 11:00 PM\n(Hora de Bogotá, Colombia)'
     },
     DOWNLOAD_RESTRICTED: 'Descarga no disponible fuera de horario',
     QR_RESTRICTED: 'Fuera de horario - Clic para ver información'
@@ -35,7 +35,7 @@ const SCHEDULE_CONFIG = {
 // 🛠️ FUNCIONES AUXILIARES CON FIXES PARA iOS/SAFARI
 
 /**
- * 🍎 FIX PARA iOS: Función mejorada para obtener hora de Bogotá
+ * 🎯 FIX PARA iOS: Función mejorada para obtener hora de Bogotá
  * Safari en iOS tiene problemas con toLocaleString y zonas horarias
  * @param {Date} date - Fecha a convertir
  * @returns {Date} - Fecha ajustada a Bogotá
@@ -61,7 +61,7 @@ const getBogotaTime = (date = new Date()) => {
   const bogotaOffset = -5; // Bogotá es UTC-5
   const bogotaTime = new Date(utcTime + (bogotaOffset * 3600000));
   
-  console.log(`🍎 iOS Fix - UTC: ${date.toISOString()}, Bogotá calculada: ${bogotaTime.toISOString()}`);
+  console.log(`🎯 iOS Fix - UTC: ${date.toISOString()}, Bogotá calculada: ${bogotaTime.toISOString()}`);
   return bogotaTime;
 };
 
@@ -81,7 +81,7 @@ const isActiveDay = (date) => {
 
 /**
  * 🔥 FUNCIÓN PRINCIPAL MEJORADA PARA VERIFICAR SI ESTÁ ACTIVO
- * Con debug específico para iOS
+ * Con debug específico para iOS - HORARIO: 1:00 PM a 11:00 PM
  * @param {Date} currentDate - Fecha actual
  * @returns {boolean} - True si está activo
  */
@@ -95,16 +95,16 @@ const isSystemActive = (currentDate = new Date()) => {
     // Verificar si es un día activo (ahora 24/7, pero mantenemos la verificación)
     const isDayActive = isActiveDay(currentDate);
     
-    // Horario configurado
-    const startTimeInMinutes = SCHEDULE_CONFIG.START_HOUR * 60;
-    const endTimeInMinutes = SCHEDULE_CONFIG.END_HOUR * 60;
+    // Horario configurado: 1:00 PM (13:00) a 11:00 PM (23:00)
+    const startTimeInMinutes = SCHEDULE_CONFIG.START_HOUR * 60; // 13 * 60 = 780 minutos (1:00 PM)
+    const endTimeInMinutes = SCHEDULE_CONFIG.END_HOUR * 60;     // 23 * 60 = 1380 minutos (11:00 PM)
     
     // Verificar si estamos dentro del horario permitido Y en un día activo
     const isInTimeRange = currentTimeInMinutes >= startTimeInMinutes && 
                          currentTimeInMinutes < endTimeInMinutes;
     const isActive = isDayActive && isInTimeRange;
     
-    // 🔍 DEBUG DETALLADO PARA iOS
+    // 📝 DEBUG DETALLADO PARA iOS - NUEVO HORARIO
     const debugInfo = {
       userAgent: navigator.userAgent,
       isIOS: /iPad|iPhone|iPod/.test(navigator.userAgent),
@@ -114,18 +114,19 @@ const isSystemActive = (currentDate = new Date()) => {
       hour: hour,
       minutes: minutes,
       currentTimeInMinutes: currentTimeInMinutes,
-      startTime: `${SCHEDULE_CONFIG.START_HOUR}:00 (${startTimeInMinutes} min)`,
-      endTime: `${SCHEDULE_CONFIG.END_HOUR}:00 (${endTimeInMinutes} min)`,
+      startTime: `1:00 PM (${startTimeInMinutes} min)`,
+      endTime: `11:00 PM (${endTimeInMinutes} min)`,
       isDayActive: isDayActive,
       isInTimeRange: isInTimeRange,
-      finalResult: isActive
+      finalResult: isActive,
+      timeDisplay: `${hour}:${minutes.toString().padStart(2, '0')}`
     };
     
-    console.log('🔍 DEBUG HORARIO SISTEMA:', debugInfo);
+    console.log('📝 DEBUG HORARIO SISTEMA (1:00 PM - 11:00 PM):', debugInfo);
     
     // Mensaje específico para iOS
     if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-      console.log(`🍎 iOS DETECTADO - Hora: ${hour}:${minutes.toString().padStart(2, '0')} | Activo: ${isActive ? '✅' : '❌'}`);
+      console.log(`🎯 iOS DETECTADO - Hora: ${hour}:${minutes.toString().padStart(2, '0')} | Horario: 1:00 PM - 11:00 PM | Activo: ${isActive ? '✅' : '❌'}`);
     }
     
     return isActive;
@@ -152,16 +153,16 @@ const getNextAvailableTime = (currentDate) => {
   // Como ahora es 24/7, solo verificamos si estamos antes de la hora de inicio del día actual
   if (ACTIVE_DAYS.includes(currentDay) && currentHour < START_HOUR) {
     return {
-      nextAvailable: `Hoy a las ${START_HOUR}:00`,
+      nextAvailable: `Hoy a las 1:00 PM`,
       hoursUntil: START_HOUR - currentHour,
       isToday: true
     };
   }
   
-  // Si estamos en horario nocturno (después de las 11 PM), el próximo es mañana a la 1 AM
+  // Si estamos en horario nocturno (después de las 11 PM), el próximo es mañana a las 1:00 PM
   if (currentHour >= SCHEDULE_CONFIG.END_HOUR) {
     return {
-      nextAvailable: `Mañana a las ${START_HOUR}:00`,
+      nextAvailable: `Mañana a las 1:00 PM`,
       hoursUntil: (24 - currentHour) + START_HOUR,
       isToday: false,
       daysUntil: 1
@@ -170,7 +171,7 @@ const getNextAvailableTime = (currentDate) => {
   
   // Fallback: mañana a la hora de inicio
   return {
-    nextAvailable: `Mañana a las ${START_HOUR}:00`,
+    nextAvailable: `Mañana a las 1:00 PM`,
     hoursUntil: (24 - currentHour) + START_HOUR,
     isToday: false,
     daysUntil: 1
@@ -187,6 +188,7 @@ const getScheduleDisplayText = () => {
   // Como es 24/7, mostramos todos los días
   const activeDaysText = 'Todos los días';
   
+  // Formatear horario: 1:00 PM - 11:00 PM
   const startTime = START_HOUR === 12 ? '12:00 PM' : 
                    START_HOUR === 0 ? '12:00 AM' :
                    START_HOUR > 12 ? `${START_HOUR - 12}:00 PM` : 

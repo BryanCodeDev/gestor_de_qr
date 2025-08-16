@@ -189,7 +189,7 @@ const QRComponent = ({ formConfig }) => {
             <span>FUERA DE HORARIO</span>
           </div>
           <div className="text-xs text-center mt-1">
-            Disponible de 8:00 AM a 3:00 PM
+            Disponible de 1:00 PM a 11:00 PM
             <br />
             (Hora de Bogotá, Colombia)
           </div>
