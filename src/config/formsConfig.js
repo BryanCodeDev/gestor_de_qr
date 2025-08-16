@@ -215,7 +215,7 @@ export const FORM_CONFIGS = [
   { 
     id: 36, 
     name: 'Yokai', 
-    url: 'https://forms.gle/QeSh31tFu7TAz5eZ9',
+    url: 'https://forms.gle/WRmcuaWwo9mXYHwB8',
     logo: 'YOKAI.webp'
   },
   { 
