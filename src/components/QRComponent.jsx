@@ -1,4 +1,4 @@
-// src/components/QRComponent.jsx - LOGOS CORREGIDOS
+// src/components/QRComponent.jsx - LOGOS DESDE CONFIG
 import React, { useRef, useState } from 'react';
 import { QRCodeSVG as QRCode } from 'qrcode.react';
 import { Download, ExternalLink, Clock, CheckCircle, Hash, Lock, AlertTriangle } from 'lucide-react';
@@ -18,53 +18,10 @@ const QRComponent = ({ formConfig }) => {
 
   console.log(`🔗 QR URL generada para formulario ${formConfig.id}: ${redirectUrl}`);
 
-const getLogoPath = (formId) => {
-  // Mapeo corregido basado en los 38 logos disponibles y los 38 formularios
-  const logoMap = {
-    // ✅ MAPEO CORREGIDO - ID FORMULARIO → ARCHIVO LOGO
-    1: 'ANTIDOTO.webp',           // Antidoto → ANTIDOTO
-    2: 'ATIBA.webp',             // Atiba → ATIBA  
-    3: 'BOCADOS.webp',           // Bocados → BOCADOS
-    4: 'BITE & DIP.webp',        // Bite & Dip → BITE & DIP
-    5: 'BURGER HUNTER.webp',     // Burger Hunter → BURGER HUNTER
-    6: 'CAOBA.webp',             // Caoba → CAOBA
-    7: 'CONEJOS PIZZA.webp',     // Conejo's Pizza → CONEJOS PIZZA
-    8: 'DANI BURGERS.webp',      // DaniBurgers → DANI BURGERS
-    9: 'DE GULA.webp',           // De Gula → DE GULA
-    10: 'DON BARRIGA.webp',      // Don Barriga → DON BARRIGA
-    11: 'DORILOCOS.webp',        // Dorilocos → DORILOCOS
-    12: 'EL ANDINO.webp',        // El Andino → EL ANDINO
-    13: 'EL FARO.webp',          // El Faro → EL FARO
-    14: 'FACA FOOD.webp',        // Faca Food → FACA FOOD
-    15: 'FRIES.webp',            // Fries → FRIES
-    16: 'GUSTAZO.webp',          // Gustazo → GUSTAZO
-    17: 'JS PIZZERIA.webp',      // J/S Pizzería → JS PIZZERIA
-    18: 'JUGOSON.webp',          // Jugoson → JUGOSON
-    19: 'LA BOCA.webp',          // La Boca → LA BOCA
-    20: 'LA ROCA BURGER.webp',   // La Roca Burger → LA ROCA BURGER
-    21: 'MR PIZZA.webp',         // Mr Pizza → MR PIZZA
-    22: 'MR TOPPINGS.webp',      // Mr Toppings → MR TOPPINGS
-    23: 'OH MY DOG.webp',        // Oh My Dog → OH MY DOG
-    24: 'OREGON BBQ.webp',       // Oregon BBQ → OREGON BBQ
-    25: 'PAPO BURGER.webp',      // Papo Burger → PAPO BURGER
-    26: 'PATATAS HOUSE.webp',    // Patatas House → PATATAS HOUSE
-    27: 'PECADO CAPITAL.webp',   // Pecado Capital → PECADO CAPITAL
-    28: 'PEDACITO DE CIELO.webp', // Pedacito de Cielo → PEDACITO DE CIELO
-    29: 'PILON BURGUER.webp',    // Pilón Burguer → PILON BURGUER
-    30: 'PUNTO BURGUER.webp',    // Punto Burguer → PUNTO BURGUER
-    31: 'SABOR URBANO.webp',     // Sabor Urbano → SABOR URBANO
-    32: 'TEXAS BBQ.webp',        // Texas BBQ → TEXAS BBQ
-    33: 'VINAS.webp',            // Viñas Food → VINAS
-    34: 'YADAH FOOD.webp',       // Yadah Food → YADAH FOOD
-    35: 'Y&Y.webp',              // Y&Y Burgers → Y&Y
-    36: 'YOKAI.webp',            // Yokai → YOKAI
-    37: 'SUPER RICO.webp',       // Super Rico → SUPER RICO
-    38: 'BURGER HOT.webp'        // Bite & Dip Express → BURGER HOT (es el único disponible)
+  // 🎨 FUNCIÓN PARA OBTENER LA RUTA DEL LOGO DESDE CONFIG
+  const getLogoPath = () => {
+    return formConfig.logo ? `/assets/img/${formConfig.logo}` : null;
   };
-
-  const logoFileName = logoMap[formId];
-  return logoFileName ? `/assets/img/${logoFileName}` : null;
-};
 
   // Función para mostrar alerta de horario cuando no está activo
   const showScheduleAlert = () => {
@@ -167,7 +124,7 @@ const getLogoPath = (formId) => {
     setLogoError(true);
   };
 
-  const logoPath = getLogoPath(formConfig.id);
+  const logoPath = getLogoPath();
 
   return (
     <div className={`group relative bg-white rounded-3xl p-6 shadow-xl border-2 transition-all duration-500 hover:shadow-2xl transform hover:-translate-y-2 ${
@@ -239,7 +196,7 @@ const getLogoPath = (formId) => {
         </div>
       )}
 
-      {/* 🎨 LOGO DEL RESTAURANTE - CORREGIDO */}
+      {/* 🎨 LOGO DEL RESTAURANTE - AHORA DESDE CONFIG */}
       <div className="text-center mb-4 relative z-10">
         <div className="w-16 h-16 mx-auto mb-3 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 border-2 border-gray-200 shadow-lg flex items-center justify-center">
           {logoPath && !logoError ? (
