@@ -29,7 +29,7 @@ export const FORM_CONFIGS = [
   { 
     id: 5, 
     name: 'Burger Hunter', 
-    url: 'https://forms.gle/mGizB7ip2nycbQot9',
+    url: 'https://forms.gle/pXxwquryWFL5YeTP9',
     logo: 'BURGER HUNTER.webp'
   },
   { 
