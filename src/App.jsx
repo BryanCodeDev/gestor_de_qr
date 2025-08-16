@@ -1,11 +1,10 @@
-// src/App.jsx - COMPLETAMENTE CORREGIDO con routing funcional y colores unificados
+// src/App.jsx - PANEL ADMINISTRATIVO REMOVIDO
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import StatusBar from './components/StatusBar';
 import QRComponent from './components/QRComponent';
 import Footer from './components/Footer';
-import AdminPanel from './components/AdminPanel';
 import QRRedirect from './pages/QRRedirect';
 import { FORM_CONFIGS } from './config/formsConfig';
 import { useScheduleCheck } from './hooks/useScheduleCheck';
@@ -13,29 +12,6 @@ import { useScheduleCheck } from './hooks/useScheduleCheck';
 // 🏠 COMPONENTE PRINCIPAL (Home)
 const HomePage = () => {
   const { isActive } = useScheduleCheck();
-
-  // Función para manejar actualizaciones de configuración desde el panel admin
-  const handleScheduleUpdate = (newConfig) => {
-    // En una implementación real, esto se conectaría con una API o localStorage
-    console.log('🔧 Nueva configuración de horarios:', newConfig);
-    
-    // Mostrar confirmación detallada
-    const configDetails = `
-🔧 NUEVA CONFIGURACIÓN:
-• Hora inicio: ${newConfig.startHour}:00
-• Hora fin: ${newConfig.endHour}:00  
-• Días activos: ${newConfig.activeDays.length} días
-• Estado: Configuración temporal aplicada
-
-⚠️ IMPORTANTE: Para cambios permanentes en producción, 
-contacta al desarrollador para actualizar los archivos de configuración.
-    `;
-    
-    console.log(configDetails);
-    
-    // En producción, esto requeriría persistencia de datos
-    // Por ahora solo mostramos la configuración en consola
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 relative">
@@ -115,10 +91,6 @@ contacta al desarrollador para actualizar los archivos de configuración.
                   <span className="text-slate-600">QR Inteligente:</span>
                   <span className="font-bold text-purple-600">HABILITADO</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-600">Panel Admin:</span>
-                  <span className="font-bold text-blue-600">DISPONIBLE</span>
-                </div>
               </div>
             </div>
 
@@ -134,14 +106,14 @@ contacta al desarrollador para actualizar los archivos de configuración.
                 </div>
                 <div>
                   <span className="text-slate-600 text-sm">Horario:</span>
-                  <p className="font-medium text-slate-800">1:00 AM - 11:00 PM</p>
+                  <p className="font-medium text-slate-800">1:00 PM - 11:00 PM</p>
                 </div>
                 <div>
                   <span className="text-slate-600 text-sm">Zona Horaria:</span>
                   <p className="font-medium text-slate-800">Bogotá, Colombia</p>
                 </div>
                 <div className="pt-2 border-t border-slate-200">
-                  <span className="text-slate-600 text-xs">⚙️ Configuración modificable desde panel admin</span>
+                  <span className="text-slate-600 text-xs">🔧 Horarios fijos del sistema</span>
                 </div>
               </div>
             </div>
@@ -173,8 +145,8 @@ contacta al desarrollador para actualizar los archivos de configuración.
                   <span className="text-xs">Los QR impresos funcionan dinámicamente</span>
                 </p>
                 <p className="flex items-start gap-2">
-                  <span className="text-blue-600 font-bold">⚙️</span>
-                  <span className="text-xs">Panel admin disponible (botón inferior derecha)</span>
+                  <span className="text-blue-600 font-bold">📋</span>
+                  <span className="text-xs">Sistema automático sin configuración manual</span>
                 </p>
               </div>
             </div>
@@ -184,9 +156,6 @@ contacta al desarrollador para actualizar los archivos de configuración.
       
       {/* Footer */}
       <Footer />
-      
-      {/* 🎯 PANEL DE ADMINISTRACIÓN - SIEMPRE DISPONIBLE */}
-      <AdminPanel onScheduleUpdate={handleScheduleUpdate} />
 
       {/* Indicador de conexión (opcional) con colores unificados */}
       <div className="fixed bottom-4 left-4 z-30">
@@ -201,13 +170,6 @@ contacta al desarrollador para actualizar los archivos de configuración.
           <span>
             {isActive ? 'Sistema Online' : 'Fuera de Horario'}
           </span>
-        </div>
-      </div>
-
-      {/* Indicador de panel admin disponible con colores unificados */}
-      <div className="fixed bottom-16 right-16 z-20">
-        <div className="bg-blue-100 text-blue-800 px-2 py-1 rounded-lg text-xs font-medium shadow-lg border border-blue-200 animate-pulse">
-          ⚙️ Admin
         </div>
       </div>
     </div>

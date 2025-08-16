@@ -1,6 +1,6 @@
-// src/components/Footer.jsx
+// src/components/Footer.jsx - SIN REFERENCIAS AL PANEL ADMIN
 import React from 'react';
-import { Code, Mail, Zap, Heart, Github, Globe, Award } from 'lucide-react';
+import { Code, Mail, Zap, Heart, Github, Globe, Award, QrCode } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -60,8 +60,8 @@ const Footer = () => {
                 <span className="text-green-200 text-sm font-medium">Alto Rendimiento</span>
               </div>
               <div className="flex items-center gap-2 bg-purple-500/10 backdrop-blur-sm px-4 py-2 rounded-full border border-purple-500/20">
-                <Globe className="text-purple-400" size={16} />
-                <span className="text-purple-200 text-sm font-medium">Alcance Global</span>
+                <QrCode className="text-purple-400" size={16} />
+                <span className="text-purple-200 text-sm font-medium">QR Inteligente</span>
               </div>
             </div>
           </div>
@@ -103,7 +103,7 @@ const Footer = () => {
                 </div>
                 <h5 className="text-white font-bold mb-1">Proyecto</h5>
                 <p className="text-slate-300 text-sm text-center leading-relaxed">
-                  Sistema QR Programable
+                  Sistema QR Inteligente
                 </p>
               </div>
             </div>
@@ -139,8 +139,8 @@ const Footer = () => {
             <div className="text-xs text-slate-400">Disponibilidad</div>
           </div>
           <div className="text-center p-4 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-2xl border border-purple-500/20">
-            <div className="text-2xl font-bold text-purple-400 mb-1">HD</div>
-            <div className="text-xs text-slate-400">Calidad QR</div>
+            <div className="text-2xl font-bold text-purple-400 mb-1">Auto</div>
+            <div className="text-xs text-slate-400">Control</div>
           </div>
           <div className="text-center p-4 bg-gradient-to-br from-blue-400/10 to-blue-500/10 rounded-2xl border border-blue-400/20">
             <div className="text-2xl font-bold text-blue-300 mb-1">∞</div>
@@ -162,20 +162,23 @@ const Footer = () => {
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-400 mb-4">
             <span className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              Sistema Activo
+              Sistema Automático
             </span>
             <span className="flex items-center gap-2">
               <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-              Última Actualización: 2025
+              Actualizado: 2025
             </span>
             <span className="flex items-center gap-2">
               <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
-              Versión 1.0.0
+              Versión 2.0.0
             </span>
           </div>
           
           <p className="text-xs text-slate-500 leading-relaxed">
             © 2025 MasterCode Company. Todos los derechos reservados.
+          </p>
+          <p className="text-xs text-slate-600 mt-2">
+            🤖 Sistema QR completamente automatizado sin configuración manual
           </p>
         </div>
 
