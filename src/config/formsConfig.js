@@ -23,7 +23,7 @@ export const FORM_CONFIGS = [
   { 
     id: 4, 
     name: 'Bite & Dip', 
-    url: 'https://forms.gle/BpbQ4SAJXrhRK8UA',
+    url: 'https://forms.gle/BpbQ4SAJXjrhRK8UA',
     logo: 'BITE & DIP.webp'
   },
   { 
@@ -119,7 +119,7 @@ export const FORM_CONFIGS = [
   { 
     id: 20, 
     name: 'La Roca Burger', 
-    url: 'https://forms.gle/QTDH6R1kcRXZxxgh7',
+    url: 'https://forms.gle/QTDH6R1kcRXZxxgh7',  // ⚠️ ESTE LINK NO ESTÁ EN TU LISTA - VERIFICA
     logo: 'LA ROCA BURGER.webp'
   },
   { 
@@ -197,7 +197,7 @@ export const FORM_CONFIGS = [
   { 
     id: 33, 
     name: 'Viñas Food', 
-    url: 'https://forms.gle/5EmYjg7D2DvUfqMX8',
+    url: 'https://forms.gle/5EmYjg7D2DvUfqMX8',  // ⚠️ ESTE LINK NO ESTÁ EN TU LISTA - VERIFICA
     logo: 'VINAS.webp'
   },
   { 
@@ -221,7 +221,7 @@ export const FORM_CONFIGS = [
   { 
     id: 37, 
     name: 'Super Rico', 
-    url: 'https://forms.gle/QeSh31tFu7TAz5eZ9',
+    url: 'https://forms.gle/QeSh31tFu7TAz5eZ9',  // ⚠️ MISMO LINK QUE YOKAI - VERIFICA
     logo: 'SUPER RICO.webp'
   },
   { 
