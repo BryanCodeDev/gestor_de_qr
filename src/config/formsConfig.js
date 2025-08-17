@@ -23,7 +23,7 @@ export const FORM_CONFIGS = [
   { 
     id: 4, 
     name: 'Bite & Dip', 
-    url: 'https://forms.gle/BpbQ4SAJXjrhRK8UA',
+    url: 'https://docs.google.com/forms/d/e/1FAIpQLScCgociQ1n6wU06VAvYAcGO29gGwYOvOpElSnhZs7oTDvCJ9Q/viewform',
     logo: 'BITE & DIP.webp'
   },
   { 
